@@ -1,4 +1,33 @@
 /* ══════════════════════════════════════════════════════
+   THEME TOGGLE
+══════════════════════════════════════════════════════ */
+const html      = document.documentElement;
+const themeBtn  = document.getElementById('theme-btn');
+const themeIcon = themeBtn.querySelector('.theme-icon');
+
+const saved = localStorage.getItem('theme') || 'light';
+html.className = saved;
+themeIcon.textContent = saved === 'dark' ? '☀️' : '🌙';
+
+themeBtn.addEventListener('click', () => {
+    const isDark = html.classList.contains('dark');
+    html.classList.add('theme-transitioning');
+    setTimeout(() => html.classList.remove('theme-transitioning'), 400);
+
+    if (isDark) {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    } else {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+/* ══════════════════════════════════════════════════════
    CUSTOM CURSOR
 ══════════════════════════════════════════════════════ */
 const cursorDot  = document.getElementById('cursor-dot');
@@ -20,15 +49,6 @@ document.addEventListener('mousemove', e => {
 })();
 
 /* ══════════════════════════════════════════════════════
-   LOADER
-══════════════════════════════════════════════════════ */
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-    }, 1500);
-});
-
-/* ══════════════════════════════════════════════════════
    PARTICLE CANVAS
 ══════════════════════════════════════════════════════ */
 const canvas = document.getElementById('particles');
@@ -39,6 +59,12 @@ let mouse = { x: -9999, y: -9999 };
 function resize() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
+}
+
+function getParticleColor(alpha) {
+    return html.classList.contains('dark')
+        ? `rgba(184,255,87,${alpha})`
+        : `rgba(10,179,170,${alpha})`;
 }
 
 class Pt {
@@ -59,7 +85,7 @@ class Pt {
     draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(184,255,87,${this.a})`;
+        ctx.fillStyle = getParticleColor(this.a);
         ctx.fill();
     }
 }
@@ -78,7 +104,7 @@ function drawConnections() {
             ctx.beginPath();
             ctx.moveTo(pts[i].x, pts[i].y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(184,255,87,${(1 - md / (D * 1.6)) * .28})`;
+            ctx.strokeStyle = getParticleColor((1 - md / (D * 1.6)) * .28);
             ctx.lineWidth = .5; ctx.stroke();
         }
         for (let j = i + 1; j < pts.length; j++) {
@@ -88,7 +114,7 @@ function drawConnections() {
                 ctx.beginPath();
                 ctx.moveTo(pts[i].x, pts[i].y);
                 ctx.lineTo(pts[j].x, pts[j].y);
-                ctx.strokeStyle = `rgba(184,255,87,${(1 - d / D) * .1})`;
+                ctx.strokeStyle = getParticleColor((1 - d / D) * .1);
                 ctx.lineWidth = .5; ctx.stroke();
             }
         }
@@ -108,6 +134,49 @@ window.addEventListener('resize', () => { resize(); initParticles(); });
 const heroEl = document.getElementById('hero');
 heroEl.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
 heroEl.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+/* ══════════════════════════════════════════════════════
+   FALLING LEAVES
+══════════════════════════════════════════════════════ */
+const leafColorsDark  = ['#52b788','#74c69d','#95d5b2','#b7e4c7','#40916c','#6bcf8f','#a3d977','#7bcb8a'];
+const leafColorsLight = ['#1b4332','#2d6a4f','#40916c','#1f6b3a','#285e3a','#3a7d52','#2e8b57','#365f44'];
+
+function spawnLeaf() {
+    const leaf = document.createElement('div');
+    leaf.className = 'leaf';
+    const size     = Math.random() * 18 + 8;
+    const colors   = html.classList.contains('dark') ? leafColorsDark : leafColorsLight;
+    const color    = colors[Math.floor(Math.random() * colors.length)];
+    const startX   = Math.random() * 110 - 5;
+    const duration = Math.random() * 8 + 10;
+    const drift    = (Math.random() - 0.5) * 280;
+    const rot      = Math.random() * 720 - 360;
+    const delay    = Math.random() * 1.5;
+
+    leaf.style.cssText = `
+        width:${size}px;height:${size}px;
+        background:${color};
+        left:${startX}vw;top:-40px;
+        animation-duration:${duration}s;
+        animation-delay:${delay}s;
+        --drift:${drift}px;--rot:${rot}deg;
+    `;
+    document.body.appendChild(leaf);
+    setTimeout(() => leaf.remove(), (duration + delay) * 1000 + 500);
+}
+
+for (let i = 0; i < 7; i++) setTimeout(spawnLeaf, i * 500);
+setInterval(spawnLeaf, 1400);
+
+/* ══════════════════════════════════════════════════════
+   LOADER + AUTOPLAY
+══════════════════════════════════════════════════════ */
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+        startMusic();
+    }, 1500);
+});
 
 /* ══════════════════════════════════════════════════════
    TYPEWRITER
@@ -229,15 +298,15 @@ const defs = {
         themes: ['Mécanique', 'Électronique', 'Informatique industrielle', 'Énergie', 'Développement durable'],
         link: null
     },
-    onepiece: { title: 'One Piece', type: 'Anime · 1100+ épisodes · 1999–présent', body: 'Monkey D. Luffy rêve de devenir le Roi des Pirates en trouvant le légendaire trésor "One Piece". Avec plus de 25 ans d\'existence, One Piece est la plus grande épopée de l\'histoire du manga/anime : une œuvre qui mêle aventure débridée, émotions profondes, humour et une construction narrative d\'une richesse inégalée.', themes: ['Liberté', 'Nakama (Amitié)', 'Rêves', 'Aventure', 'Justice', 'Famille'] },
-    aot: { title: 'Attack on Titan', type: 'Anime · 87 épisodes · 2013–2023', body: 'L\'humanité survit derrière d\'immenses murs pour se protéger des Titans. Eren Jaeger jure de les exterminer après avoir vu sa mère être dévorée. Une œuvre monumentale, sombre et philosophique sur la liberté et le cycle de la violence.', themes: ['Liberté', 'Guerre', 'Sacrifice', 'Humanité', 'Politique'] },
-    naruto: { title: 'Naruto / Naruto Shippuden', type: 'Anime · 720 épisodes · 2002–2017', body: 'Naruto Uzumaki, jeune ninja rejeté de son village car il porte en lui le Renard à neuf queues, rêve de devenir Hokage. À travers des combats épiques, des amitiés indéfectibles et des épreuves dévastatrices, il grandit et forge sa légende.', themes: ['Amitié', 'Persévérance', 'Rêves', 'Famille', 'Sacrifice'] },
-    hxh: { title: 'Hunter x Hunter', type: 'Anime · 148 épisodes · 2011–2014', body: 'Gon Freecss quitte son île natale pour passer l\'examen des Chasseurs et retrouver son père légendaire. Considéré comme l\'un des meilleurs shōnen jamais créés, grâce à sa profondeur narrative et philosophique.', themes: ['Amitié', 'Pouvoir', 'Philosophie', 'Ambition', 'Stratégie'] },
-    deathnote: { title: 'Death Note', type: 'Anime · 37 épisodes · 2006–2007', body: 'Light Yagami trouve un carnet de la mort qui permet de tuer quiconque dont il écrit le nom. Décidé à purger le monde des criminels, il entre dans un duel psychologique intense avec le mystérieux détective L.', themes: ['Justice', 'Pouvoir', 'Morale', 'Dualité', 'Psychologie'] },
-    opm: { title: 'One Punch Man', type: 'Anime · 24 épisodes · 2015–2019', body: 'Saitama est un héros capable de vaincre n\'importe quel adversaire d\'un seul coup de poing. Cette puissance absolue lui apporte un problème inattendu : l\'ennui total. Déconstruction hilarante du genre super-héroïque.', themes: ['Héroïsme', 'Existentialisme', 'Humour', 'Action', 'Satire'] },
-    demonslayer: { title: 'Demon Slayer', type: 'Anime · 63 épisodes · 2019–présent', body: 'Après avoir trouvé sa famille massacrée et sa sœur Nezuko transformée en démon, Tanjiro Kamado devient pourfendeur de démons pour trouver un remède. Portée par des animations époustouflantes du studio Ufotable.', themes: ['Famille', 'Détermination', 'Humanité', 'Sacrifice', 'Fraternité'] },
-    assassin: { title: 'Assassination Classroom', type: 'Anime · 47 épisodes · 2015–2016', body: 'La classe 3-E reçoit une mission impossible : assassiner Koro-sensei, une créature capable de voler à Mach 20 qui se révèle être le meilleur professeur qu\'ils aient jamais eu. Un shōnen touchant sur l\'éducation.', themes: ['Éducation', 'Confiance', 'Ambition', 'Humour', 'Croissance'] },
-    sololeveling: { title: 'Solo Leveling', type: 'Anime · 25 épisodes · 2024–présent', body: 'Dans un monde où des portails magiques font apparaître des monstres, Sung Jin-Woo est le chasseur le plus faible. Après une quasi-mort, il obtient un système unique qui lui permet de progresser sans limite.', themes: ['Dépassement de soi', 'Pouvoir', 'Survie', 'Progression', 'Fantasy'] }
+    onepiece:    { title: 'One Piece',              type: 'Anime · 1100+ épisodes · 1999–présent',  body: 'Monkey D. Luffy rêve de devenir le Roi des Pirates en trouvant le légendaire trésor "One Piece". Avec plus de 25 ans d\'existence, One Piece est la plus grande épopée de l\'histoire du manga/anime : une œuvre qui mêle aventure débridée, émotions profondes, humour et une construction narrative d\'une richesse inégalée.', themes: ['Liberté', 'Nakama (Amitié)', 'Rêves', 'Aventure', 'Justice', 'Famille'] },
+    aot:         { title: 'Attack on Titan',         type: 'Anime · 87 épisodes · 2013–2023',        body: 'L\'humanité survit derrière d\'immenses murs pour se protéger des Titans. Eren Jaeger jure de les exterminer après avoir vu sa mère être dévorée. Une œuvre monumentale, sombre et philosophique sur la liberté et le cycle de la violence.', themes: ['Liberté', 'Guerre', 'Sacrifice', 'Humanité', 'Politique'] },
+    naruto:      { title: 'Naruto / Naruto Shippuden',type: 'Anime · 720 épisodes · 2002–2017',       body: 'Naruto Uzumaki, jeune ninja rejeté de son village car il porte en lui le Renard à neuf queues, rêve de devenir Hokage. À travers des combats épiques, des amitiés indéfectibles et des épreuves dévastatrices, il grandit et forge sa légende.', themes: ['Amitié', 'Persévérance', 'Rêves', 'Famille', 'Sacrifice'] },
+    hxh:         { title: 'Hunter x Hunter',         type: 'Anime · 148 épisodes · 2011–2014',       body: 'Gon Freecss quitte son île natale pour passer l\'examen des Chasseurs et retrouver son père légendaire. Considéré comme l\'un des meilleurs shōnen jamais créés, grâce à sa profondeur narrative et philosophique.', themes: ['Amitié', 'Pouvoir', 'Philosophie', 'Ambition', 'Stratégie'] },
+    deathnote:   { title: 'Death Note',              type: 'Anime · 37 épisodes · 2006–2007',        body: 'Light Yagami trouve un carnet de la mort qui permet de tuer quiconque dont il écrit le nom. Décidé à purger le monde des criminels, il entre dans un duel psychologique intense avec le mystérieux détective L.', themes: ['Justice', 'Pouvoir', 'Morale', 'Dualité', 'Psychologie'] },
+    opm:         { title: 'One Punch Man',           type: 'Anime · 24 épisodes · 2015–2019',        body: 'Saitama est un héros capable de vaincre n\'importe quel adversaire d\'un seul coup de poing. Cette puissance absolue lui apporte un problème inattendu : l\'ennui total. Déconstruction hilarante du genre super-héroïque.', themes: ['Héroïsme', 'Existentialisme', 'Humour', 'Action', 'Satire'] },
+    demonslayer: { title: 'Demon Slayer',            type: 'Anime · 63 épisodes · 2019–présent',     body: 'Après avoir trouvé sa famille massacrée et sa sœur Nezuko transformée en démon, Tanjiro Kamado devient pourfendeur de démons pour trouver un remède. Portée par des animations époustouflantes du studio Ufotable.', themes: ['Famille', 'Détermination', 'Humanité', 'Sacrifice', 'Fraternité'] },
+    assassin:    { title: 'Assassination Classroom', type: 'Anime · 47 épisodes · 2015–2016',        body: 'La classe 3-E reçoit une mission impossible : assassiner Koro-sensei, une créature capable de voler à Mach 20 qui se révèle être le meilleur professeur qu\'ils aient jamais eu. Un shōnen touchant sur l\'éducation.', themes: ['Éducation', 'Confiance', 'Ambition', 'Humour', 'Croissance'] },
+    sololeveling:{ title: 'Solo Leveling',           type: 'Anime · 25 épisodes · 2024–présent',     body: 'Dans un monde où des portails magiques font apparaître des monstres, Sung Jin-Woo est le chasseur le plus faible. Après une quasi-mort, il obtient un système unique qui lui permet de progresser sans limite.', themes: ['Dépassement de soi', 'Pouvoir', 'Survie', 'Progression', 'Fantasy'] }
 };
 
 /* ══════════════════════════════════════════════════════
@@ -274,15 +343,36 @@ document.querySelectorAll('.term-link').forEach(el => el.addEventListener('click
 document.querySelectorAll('.anime-card-item').forEach(el => el.addEventListener('click', () => openDef(el.dataset.def)));
 
 /* ══════════════════════════════════════════════════════
-   MUSIC PLAYER + VOLUME
+   MUSIC PLAYER + VOLUME + AUTOPLAY
 ══════════════════════════════════════════════════════ */
 const audio     = document.getElementById('bg-music');
 const musicBtn  = document.getElementById('music-btn');
 const volWrap   = document.getElementById('volume-wrap');
 const volSlider = document.getElementById('volume-slider');
 let isPlaying   = false;
+let playPending = false;
 
-audio.volume = 0.5;
+audio.volume = 0.3;
+
+function startMusic() {
+    if (isPlaying || playPending) return;
+    playPending = true;
+    audio.play().then(() => {
+        isPlaying   = true;
+        playPending = false;
+        musicBtn.innerHTML = '<span class="ring"></span>🔊';
+        musicBtn.classList.add('playing');
+        volWrap.classList.add('show');
+        setTimeout(() => volWrap.classList.remove('show'), 4000);
+    }).catch(() => { playPending = false; });
+}
+
+const autoEvents = ['click', 'scroll', 'keydown', 'touchstart'];
+function onFirstInteraction() {
+    startMusic();
+    autoEvents.forEach(e => document.removeEventListener(e, onFirstInteraction));
+}
+autoEvents.forEach(e => document.addEventListener(e, onFirstInteraction, { once: true, passive: true }));
 
 musicBtn.addEventListener('click', () => {
     if (isPlaying) {
@@ -290,13 +380,11 @@ musicBtn.addEventListener('click', () => {
         musicBtn.innerHTML = '<span class="ring"></span>🎵';
         musicBtn.classList.remove('playing');
         volWrap.classList.remove('show');
+        isPlaying = false;
     } else {
-        audio.play().catch(() => {});
-        musicBtn.innerHTML = '<span class="ring"></span>🔊';
-        musicBtn.classList.add('playing');
-        volWrap.classList.add('show');
+        autoEvents.forEach(e => document.removeEventListener(e, onFirstInteraction));
+        startMusic();
     }
-    isPlaying = !isPlaying;
 });
 
 volSlider.addEventListener('input', () => {
