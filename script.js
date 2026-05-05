@@ -137,65 +137,148 @@ heroEl.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; 
 
 /* ══════════════════════════════════════════════════════
    PIXEL ART FALLING LEAVES
+   Chaque feuille = canvas 7-11×13-15px rendu pixelisé
 ══════════════════════════════════════════════════════ */
-function makeLeafCanvas(dark, mid, light, stem) {
+const LEAF_TEMPLATES = [
+    // 0 — Ovale / bouleau
+    { w:8, h:14, data:[
+        '..DDDD..',
+        '.DLLMMD.',
+        'DLMMMVMD',
+        'DLMMVMMD',
+        'DLMMVMMD',
+        'DLMMVMMD',
+        'DLMMVMMD',
+        '.DLMVMD.',
+        '..DLMD..',
+        '...DDD..',
+        '....D...',
+        '....S...',
+        '....S...',
+        '...SS...',
+    ]},
+    // 1 — Allongée / pointue
+    { w:7, h:15, data:[
+        '...D...',
+        '..DLD..',
+        '.DLMMD.',
+        'DLMMMD.',
+        'DLMVMD.',
+        'DLMVMD.',
+        'DLMVMD.',
+        'DLMVMD.',
+        'DLMVMD.',
+        '.DLVMD.',
+        '..DVMD.',
+        '...DDD.',
+        '....D..',
+        '....S..',
+        '...SS..',
+    ]},
+    // 2 — Large / ronde
+    { w:10, h:13, data:[
+        '..DDDDDD..',
+        '.DLLMMMD..',
+        'DLMMVMMMD.',
+        'DLMMVMMMD.',
+        'DLMMVMMMD.',
+        'DLMMVMMD..',
+        '.DLMVMD...',
+        '..DLMMD...',
+        '...DLMD...',
+        '....DDD...',
+        '....D.....',
+        '....S.....',
+        '...SS.....',
+    ]},
+    // 3 — Érable (lobée)
+    { w:11, h:14, data:[
+        '...DD.DD...',
+        '..DMDMDMD..',
+        '.DLMMVMMMD.',
+        'DLMMMVMMMD.',
+        '.DLMMVMMD..',
+        'DDLMMVMMD..',
+        '.DLMMVMD...',
+        '..DLMMD....',
+        '...DLMD....',
+        '....DDD....',
+        '.....D.....',
+        '.....S.....',
+        '.....S.....',
+        '....SS.....',
+    ]},
+    // 4 — Chêne (bords ondulés)
+    { w:9, h:13, data:[
+        '.D.DDD.D.',
+        'DMDMMMMMD',
+        'DMMVMMMMD',
+        'DMMVMMMD.',
+        '.DMMVMMD.',
+        'DMMVMMMD.',
+        'DMMVMMD..',
+        '.DMMVMD..',
+        '..DMMMD..',
+        '...DLDD..',
+        '....D....',
+        '....S....',
+        '...SS....',
+    ]},
+];
+
+const LEAF_PALETTES = [
+    { D:'#7a0a0a', M:'#cc2222', L:'#ff6644', V:'#991111', S:'#5a3a1a' }, // rouge vif
+    { D:'#7a3500', M:'#cc7700', L:'#ffcc44', V:'#994400', S:'#5a3a1a' }, // orange
+    { D:'#886600', M:'#ccaa00', L:'#ffee44', V:'#997700', S:'#5a3a1a' }, // jaune-doré
+    { D:'#882200', M:'#dd4400', L:'#ff8844', V:'#aa2200', S:'#5a3a1a' }, // rouge-orange
+    { D:'#1a5c1a', M:'#4dbb2a', L:'#88ee55', V:'#2a8811', S:'#5a3a1a' }, // vert vif
+    { D:'#2d6600', M:'#77cc00', L:'#bbee44', V:'#446600', S:'#5a3a1a' }, // vert-lime
+    { D:'#004400', M:'#228833', L:'#55bb44', V:'#116611', S:'#5a3a1a' }, // vert foncé
+    { D:'#005c3d', M:'#00bb77', L:'#55ffbb', V:'#008855', S:'#5a3a1a' }, // teal
+    { D:'#006666', M:'#00aaaa', L:'#44dddd', V:'#007777', S:'#5a3a1a' }, // bleu-teal
+    { D:'#4a6600', M:'#88bb00', L:'#ccee44', V:'#557700', S:'#5a3a1a' }, // vert-olive
+];
+
+function renderLeaf(tmpl, pal) {
     const c = document.createElement('canvas');
-    c.width = 9; c.height = 12;
+    c.width = tmpl.w; c.height = tmpl.h;
     const cx = c.getContext('2d');
-    const d = (x, y, col) => { cx.fillStyle = col; cx.fillRect(x, y, 1, 1); };
-
-    // Row 0
-    d(3,0,dark); d(4,0,dark); d(5,0,dark);
-    // Row 1
-    d(2,1,dark); d(3,1,light); d(4,1,mid); d(5,1,mid); d(6,1,dark);
-    // Row 2
-    d(1,2,dark); d(2,2,light); d(3,2,light); d(4,2,mid); d(5,2,mid); d(6,2,mid); d(7,2,dark);
-    // Row 3
-    d(0,3,dark); d(1,3,mid); d(2,3,light); d(3,3,mid); d(4,3,mid); d(5,3,mid); d(6,3,mid); d(7,3,mid); d(8,3,dark);
-    // Row 4
-    d(0,4,dark); d(1,4,mid); d(2,4,mid); d(3,4,mid); d(4,4,mid); d(5,4,mid); d(6,4,mid); d(7,4,mid); d(8,4,dark);
-    // Row 5
-    d(0,5,dark); d(1,5,mid); d(2,5,mid); d(3,5,mid); d(4,5,mid); d(5,5,mid); d(6,5,mid); d(7,5,dark);
-    // Row 6
-    d(1,6,dark); d(2,6,mid); d(3,6,mid); d(4,6,mid); d(5,6,mid); d(6,6,dark);
-    // Row 7
-    d(2,7,dark); d(3,7,mid); d(4,7,mid); d(5,7,dark);
-    // Row 8
-    d(3,8,dark); d(4,8,dark);
-    // Stem
-    d(3,9,stem); d(3,10,stem); d(2,11,stem); d(3,11,stem);
-
+    tmpl.data.forEach((row, y) => {
+        for (let x = 0; x < row.length; x++) {
+            const ch = row[x];
+            if (ch === '.' || !pal[ch]) continue;
+            cx.fillStyle = pal[ch];
+            cx.fillRect(x, y, 1, 1);
+        }
+    });
     return c.toDataURL();
 }
 
-const leafSchemes = [
-    { dark:'#1a5c1a', mid:'#4dbb36', light:'#88ee55', stem:'#4a3520' },
-    { dark:'#006600', mid:'#33dd00', light:'#88ff44', stem:'#4a3520' },
-    { dark:'#2d6600', mid:'#77cc00', light:'#bbee44', stem:'#4a3520' },
-    { dark:'#005c3d', mid:'#00cc77', light:'#55ffbb', stem:'#4a3520' },
-    { dark:'#1a5c3d', mid:'#33cc88', light:'#77eecc', stem:'#4a3520' },
-    { dark:'#336611', mid:'#88cc44', light:'#ccee88', stem:'#4a3520' },
-    { dark:'#004d33', mid:'#00aa66', light:'#55ddaa', stem:'#4a3520' },
-    { dark:'#225511', mid:'#66bb33', light:'#aade77', stem:'#4a3520' },
-];
-
-const leafDataURLs = leafSchemes.map(s => makeLeafCanvas(s.dark, s.mid, s.light, s.stem));
+// Pré-génère les 50 combinaisons (5 formes × 10 palettes)
+const ALL_LEAVES = [];
+LEAF_TEMPLATES.forEach(tmpl => {
+    LEAF_PALETTES.forEach(pal => {
+        ALL_LEAVES.push({ url: renderLeaf(tmpl, pal), w: tmpl.w, h: tmpl.h });
+    });
+});
 
 function spawnLeaf() {
-    const leaf = document.createElement('div');
+    const leaf   = document.createElement('div');
     leaf.className = 'leaf';
-    const url      = leafDataURLs[Math.floor(Math.random() * leafDataURLs.length)];
-    const size     = Math.random() * 24 + 20;
-    const startX   = Math.random() * 110 - 5;
+    const chosen  = ALL_LEAVES[Math.floor(Math.random() * ALL_LEAVES.length)];
+    const px      = Math.random() * 2 + 3;        // 3–5 px d'écran par pixel canvas
+    const w       = Math.round(chosen.w * px);
+    const h       = Math.round(chosen.h * px);
+    const startX  = Math.random() * 110 - 5;
     const duration = Math.random() * 8 + 10;
-    const drift    = (Math.random() - 0.5) * 280;
-    const rot      = Math.random() * 360 - 180;
-    const delay    = Math.random() * 1.5;
+    const drift   = (Math.random() - 0.5) * 280;
+    const rot     = Math.random() * 360 - 180;
+    const delay   = Math.random() * 1.5;
 
     leaf.style.cssText = `
-        width:${size}px;height:${Math.round(size * 1.33)}px;
-        background:url("${url}") no-repeat center/100% 100%;
-        left:${startX}vw;top:-60px;
+        width:${w}px;height:${h}px;
+        background:url("${chosen.url}") no-repeat center/100% 100%;
+        left:${startX}vw;top:-${h + 20}px;
         --drift:${drift}px;--rot:${rot}deg;
         animation:leafFall ${duration}s ${delay}s linear both;
     `;
@@ -203,8 +286,8 @@ function spawnLeaf() {
     setTimeout(() => leaf.remove(), (duration + delay) * 1000 + 500);
 }
 
-for (let i = 0; i < 7; i++) setTimeout(spawnLeaf, i * 500);
-setInterval(spawnLeaf, 1400);
+for (let i = 0; i < 8; i++) setTimeout(spawnLeaf, i * 400);
+setInterval(spawnLeaf, 1200);
 
 /* ══════════════════════════════════════════════════════
    LOADER + AUTOPLAY
