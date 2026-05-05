@@ -1,383 +1,1309 @@
 <!DOCTYPE html>
-<html lang="fr" class="light">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nathan Mauduit — Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nathan Mauduit — Développeur web junior à Flers, Normandie. Formation Le Wagon Bordeaux. Portfolio 2026.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230f0f0e'/><text x='50' y='72' font-family='system-ui,sans-serif' font-size='65' font-weight='800' fill='%23d94e1f' text-anchor='middle'>N</text></svg>">
+<title>Nathan Mauduit — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  :root {
+    --bg:        #ebeae6;
+    --bg-warm:   #e2dfd8;
+    --ink:       #0f0f0e;
+    --ink-soft:  #2a2826;
+    --mute:      #8a8780;
+    --line:      rgba(15,15,14,0.15);
+    --orange:    #d94e1f;
+    --orange-bright: #ff6a2a;
+    --ember:     #f59e3a;
+    --display:   'Bricolage Grotesque', 'Archivo Black', system-ui, sans-serif;
+    --mono:      'JetBrains Mono', ui-monospace, monospace;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body::before {
+    content:'';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/><feColorMatrix values='0 0 0 0 0.05  0 0 0 0 0.05  0 0 0 0 0.05  0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: .8;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: multiply;
+  }
+
+  /* display utility — ultra-bold italic uppercase */
+  .display {
+    font-family: var(--display);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+  .mono {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+  .mono-mute { color: var(--mute); }
+
+  /* ───────── nav ───────── */
+  .nav {
+    position: fixed;
+    top: 24px; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
+    gap: 24px;
+    pointer-events: none;
+  }
+  .nav > * { pointer-events: auto; }
+  .nav-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.6;
+  }
+  .nav-meta strong { font-weight: 500; color: var(--ink); }
+  .nav-center {
+    justify-self: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .nav-actions {
+    justify-self: end;
+    display: flex;
+    gap: 6px;
+  }
+  .nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 28px;
+    padding: 0 14px;
+    background: var(--ink);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border: 0;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .nav-btn:hover { background: var(--orange); color: white; }
+
+  /* music button */
+  .music-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding-left: 10px;
+  }
+  .music-icon {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+  .music-icon .bar {
+    width: 2px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 1px;
+    transform-origin: bottom;
+    transition: height 0.2s ease;
+  }
+  .music-btn.playing .music-icon .bar {
+    animation: bar-bounce 0.9s ease-in-out infinite;
+  }
+  .music-btn.playing .music-icon .bar:nth-child(1) { animation-delay: -0.0s; }
+  .music-btn.playing .music-icon .bar:nth-child(2) { animation-delay: -0.3s; }
+  .music-btn.playing .music-icon .bar:nth-child(3) { animation-delay: -0.15s; }
+  .music-btn.playing .music-icon .bar:nth-child(4) { animation-delay: -0.45s; }
+  @keyframes bar-bounce {
+    0%, 100% { height: 3px; }
+    50%      { height: 12px; }
+  }
+  .music-btn.playing { background: var(--orange); color: white; }
+
+  /* ───────── hero ───────── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 40px;
+    padding: 100px 24px 80px;
+    z-index: 2;
+  }
+  .hero-name {
+    justify-self: end;
+    text-align: right;
+    font-family: var(--display);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: clamp(40px, 6.5vw, 96px);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .hero-name span { display: block; }
+
+  .hero-stage {
+    width: clamp(240px, 28vw, 380px);
+    aspect-ratio: 9 / 16;
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    background: linear-gradient(180deg, #1a1a1a 0%, #2a1410 100%);
+    box-shadow:
+      0 30px 60px -20px rgba(0,0,0,0.35),
+      0 1px 2px rgba(0,0,0,0.1);
+  }
+  .hero-stage::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      /* sky */
+      linear-gradient(180deg,
+        #f5a142 0%,
+        #ee6e1e 25%,
+        #c43b14 55%,
+        #5a1a10 85%,
+        #1a0a08 100%);
+    z-index: 1;
+  }
+  /* mountain silhouette */
+  .hero-stage::after {
+    content:'';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 30% 65%, rgba(255,150,80,0.4), transparent 60%),
+      radial-gradient(ellipse 80% 50% at 70% 80%, rgba(120,30,15,0.6), transparent 60%);
+    z-index: 2;
+  }
+  .hero-stage svg.mountain {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    mix-blend-mode: multiply;
+    opacity: 0.9;
+  }
+  .hero-stage .grain-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='2'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 0.6  0 0 0 0 0.2  0 0 0 0.3 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    z-index: 4;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .hero-enter {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: white;
+    text-decoration: none;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+  .hero-enter:hover { transform: translate(-50%, -50%) scale(1.05); }
+  .hero-enter::before, .hero-enter::after {
+    content: '·';
+    opacity: 0.6;
+  }
+  .hero-role {
+    justify-self: start;
+    font-family: var(--display);
+    font-weight: 800;
+    font-style: italic;
+    text-transform: uppercase;
+    font-size: clamp(28px, 4vw, 56px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .hero-role span { display: block; }
+
+  .hero-foot {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--mute);
+    z-index: 5;
+  }
+  .hero-foot a {
+    color: var(--mute);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .hero-foot a:hover { color: var(--orange); }
+
+  /* falling embers/sparks in hero stage */
+  .hero-stage .embers {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+  }
+
+  /* ───────── section frame ───────── */
+  section {
+    position: relative;
+    z-index: 2;
+    padding: 80px 24px;
+  }
+  .container { max-width: 1400px; margin: 0 auto; }
+  .section-head {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 40px;
+    margin-bottom: 48px;
+    align-items: end;
+  }
+  .section-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--mute);
+    line-height: 1.6;
+  }
+  .section-num strong { display: block; color: var(--ink); }
+  .section-title {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(56px, 9vw, 140px);
+    line-height: 0.88;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .section-title em {
+    font-style: italic;
+    color: var(--orange);
+    -webkit-text-stroke: 0;
+  }
+  .section-title.outlined {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--ink);
+  }
+
+  /* ───────── about ───────── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .about-text p {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 18px;
+    max-width: 50ch;
+  }
+  .about-text p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid var(--line);
+  }
+  .stat-num {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--orange);
+  }
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--mute);
+    margin-top: 8px;
+  }
+  .info-list {
+    border-top: 1px solid var(--line);
+  }
+  .info-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 24px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .info-row .k { color: var(--mute); }
+  .info-row .v { color: var(--ink); }
+  .info-row .v a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+  .info-row .v a:hover { color: var(--orange); border-color: var(--orange); }
+
+  /* ───────── projects (huge list) ───────── */
+  .projects-section {
+    padding: 120px 24px;
+    background: var(--bg-warm);
+  }
+  .projects-list {
+    list-style: none;
+  }
+  .project-row {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 24px;
+    padding: 8px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+    transition: padding 0.4s ease;
+    color: inherit;
+    text-decoration: none;
+  }
+  .project-row:last-of-type { border-bottom: 1px solid var(--line); }
+  .project-row:hover { padding: 8px 16px; }
+  .project-row:hover .project-name { color: var(--orange); -webkit-text-stroke: 0; }
+  .project-row:hover .project-arrow { transform: translateX(8px); color: var(--orange); }
+  .project-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+  }
+  .project-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    transition: color 0.3s ease, -webkit-text-stroke 0.3s ease;
+  }
+  .project-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+    text-align: right;
+  }
+  .project-meta .year { color: var(--ink); }
+  .project-arrow {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--ink);
+    transition: transform 0.3s ease, color 0.3s ease;
+    margin-left: 16px;
+  }
+
+  /* ───────── skills ───────── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .skill-block {
+    background: var(--bg);
+    padding: 32px 28px;
+  }
+  .skill-block h4 {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+    color: var(--ink);
+  }
+  .skill-line {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--line);
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .skill-line:last-child { border-bottom: 0; }
+  .skill-bar {
+    width: 80px;
+    height: 4px;
+    background: var(--line);
+    position: relative;
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .skill-bar > i {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: var(--orange);
+    width: var(--w, 50%);
+    border-radius: 1px;
+  }
+  .skill-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mute);
+    min-width: 32px;
+    text-align: right;
+  }
+
+  /* ───────── experience / education timeline ───────── */
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+  .tl-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 280px;
+    gap: 40px;
+    padding: 32px 0;
+    border-top: 1px solid var(--line);
+  }
+  .tl-row:last-child { border-bottom: 1px solid var(--line); }
+  .tl-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--mute);
+    line-height: 1.7;
+  }
+  .tl-meta strong { display: block; color: var(--ink); font-weight: 500; margin-bottom: 4px; }
+  .tl-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 9px;
+    margin-top: 8px;
+    border-radius: 1px;
+  }
+  .tl-title {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(24px, 2.8vw, 36px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+  .tl-org {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+  .tl-desc {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    max-width: 60ch;
+  }
+  .tl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-content: flex-start;
+  }
+  .tl-tags span {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 5px 10px;
+    border: 1px solid var(--line);
+    border-radius: 1px;
+    color: var(--ink-soft);
+  }
+
+  /* ───────── passions ───────── */
+  .passions-section {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 120px 24px;
+  }
+  .passions-section .section-num { color: rgba(235,234,230,0.4); }
+  .passions-section .section-num strong { color: var(--bg); }
+  .passions-section .section-title { color: var(--bg); }
+  .passions-section .section-title em { color: var(--ember); }
+
+  .passions-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(235,234,230,0.12);
+    border: 1px solid rgba(235,234,230,0.12);
+  }
+  .passion {
+    background: var(--ink);
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 380px;
+  }
+  .passion-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    border-bottom: 1px solid rgba(235,234,230,0.15);
+    padding-bottom: 18px;
+  }
+  .passion-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(235,234,230,0.5);
+    letter-spacing: 0.15em;
+  }
+  .passion-title {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--bg);
+  }
+  .passion-desc {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.75;
+    color: rgba(235,234,230,0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .passion-tags {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .passion-tags span {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 5px 10px;
+    border: 1px solid rgba(235,234,230,0.25);
+    color: rgba(235,234,230,0.85);
+    border-radius: 1px;
+  }
+  .passion-tags span.accent {
+    border-color: var(--orange);
+    color: var(--ember);
+  }
+
+  /* ───────── contact ───────── */
+  .contact-section {
+    padding: 140px 24px 80px;
+  }
+  .contact-block {
+    text-align: center;
+  }
+  .contact-eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    color: var(--mute);
+    margin-bottom: 24px;
+  }
+  .contact-title {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(64px, 12vw, 200px);
+    line-height: 0.85;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 32px;
+  }
+  .contact-title em {
+    font-style: italic;
+    color: var(--orange);
+  }
+  .contact-email {
+    display: inline-block;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: clamp(18px, 1.6vw, 22px);
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 4px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .contact-email:hover { color: var(--orange); border-color: var(--orange); }
+
+  .contact-grid {
+    margin-top: 64px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    text-align: left;
+  }
+  .contact-cell {
+    background: var(--bg);
+    padding: 24px;
+  }
+  .contact-cell .label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--mute);
+    margin-bottom: 12px;
+  }
+  .contact-cell .value {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 800;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    word-break: break-word;
+  }
+
+  /* ───────── footer ───────── */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--mute);
+    align-items: center;
+    z-index: 2;
+    position: relative;
+  }
+  footer .center { text-align: center; }
+  footer .right { text-align: right; }
+  footer a { color: var(--mute); text-decoration: none; transition: color 0.2s ease; }
+  footer a:hover { color: var(--orange); }
+
+  /* reveal */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s ease, transform 0.9s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* responsive */
+  @media (max-width: 980px) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      text-align: center;
+      padding: 120px 24px 80px;
+    }
+    .hero-name, .hero-role { justify-self: center; text-align: center; }
+    .hero-stage { width: min(70vw, 320px); margin: 0 auto; }
+    .nav { grid-template-columns: 1fr 1fr; }
+    .nav-center { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .skills-grid, .passions-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+    .tl-row { grid-template-columns: 1fr; gap: 16px; }
+    .tl-row > .tl-tags { justify-content: flex-start; }
+    .project-row { grid-template-columns: 40px 1fr 24px; gap: 12px; }
+    .project-row .project-meta { display: none; }
+    footer { grid-template-columns: 1fr; text-align: center; }
+    footer .right, footer .center { text-align: center; }
+  }
+</style>
 </head>
 <body>
 
-<!-- ══ CURSOR ══════════════════════════════════════════════════════ -->
-<div id="cursor-dot"></div>
-<div id="cursor-ring"></div>
-
-<!-- ══ LOADER ══════════════════════════════════════════════════════ -->
-<div id="loader">
-    <div class="loader-text">NM</div>
-    <div class="loader-bar"><div class="loader-fill"></div></div>
-</div>
-
-<!-- ══ AUDIO ═══════════════════════════════════════════════════════ -->
-<audio id="bg-music" loop preload="auto">
-    <source src="music/zelda.mp3" type="audio/mpeg">
-</audio>
-<div id="volume-wrap">
-    <span>🔈</span>
-    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
-    <span>🔊</span>
-</div>
-<button id="music-btn"><span class="ring"></span>🎵</button>
-
-<!-- ══ DEF PANEL ════════════════════════════════════════════════════ -->
-<div id="def-panel">
-    <button id="def-close">✕</button>
-    <div class="def-inner">
-        <div class="def-type" id="def-type"></div>
-        <div class="def-title" id="def-title"></div>
-        <div class="def-body" id="def-body"></div>
-        <div class="def-themes-wrap" id="def-themes"></div>
-        <a id="def-link-el" href="#" target="_blank" rel="noopener noreferrer"></a>
-    </div>
-</div>
-
-<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
-<nav id="navbar">
-    <a href="#" class="nav-logo">NM</a>
-    <button id="theme-btn" aria-label="Changer le thème"><span class="theme-icon">🌙</span></button>
-    <ul class="nav-links">
-        <li><a href="#about">À propos</a></li>
-        <li><a href="#skills">Skills</a></li>
-        <li><a href="#experience">Expérience</a></li>
-        <li><a href="#education">Formation</a></li>
-        <li><a href="#projects">Projets</a></li>
-        <li><a href="#passions">Passions</a></li>
-        <li><a href="#contact" class="nav-cta">Contact</a></li>
-    </ul>
+<!-- ───────── nav ───────── -->
+<nav class="nav">
+  <div class="nav-meta">
+    <div><strong>Portfolio of</strong></div>
+    <div>Nathan Mauduit</div>
+  </div>
+  <div class="nav-center">Portfolio · 2026 © Nathan Mauduit</div>
+  <div class="nav-actions">
+    <button id="music-toggle" class="nav-btn music-btn" type="button" aria-label="Lecture musique">
+      <span class="music-icon" aria-hidden="true">
+        <span class="bar"></span><span class="bar"></span><span class="bar"></span><span class="bar"></span>
+      </span>
+      <span class="music-label">Sound</span>
+    </button>
+    <a href="#about" class="nav-btn">About</a>
+    <a href="#projects" class="nav-btn">Work</a>
+    <a href="mailto:na.mauduit@gmail.com" class="nav-btn">Email</a>
+  </div>
+  <audio id="bg-music" src="music/zelda.mp3" loop preload="none"></audio>
 </nav>
 
-<!-- ══ HERO ═════════════════════════════════════════════════════════ -->
-<section id="hero">
-    <canvas id="particles"></canvas>
-    <div class="hero-inner">
-        <div class="hero-tag">Portfolio · 2026</div>
-        <h1 class="hero-name">
-            <span class="line" style="--d:.1s">Nathan</span>
-            <span class="line accent-line" style="--d:.28s">Mauduit</span>
-        </h1>
-        <p class="hero-sub">
-            <span id="typewriter"></span><span class="cursor">_</span>
+<!-- ───────── hero ───────── -->
+<header class="hero" id="top">
+  <div class="hero-name">
+    <span>Nathan</span>
+    <span style="color: var(--orange);">Mauduit</span>
+  </div>
+
+  <div class="hero-stage">
+    <svg class="mountain" viewBox="0 0 360 640" preserveAspectRatio="xMidYMid slice">
+      <!-- back ridge -->
+      <path d="M0,420 L40,380 L90,400 L140,340 L200,370 L260,310 L310,340 L360,330 L360,640 L0,640 Z"
+            fill="#2a0d05" opacity="0.5"/>
+      <!-- mid ridge -->
+      <path d="M0,470 L60,430 L120,460 L180,400 L240,440 L300,400 L360,430 L360,640 L0,640 Z"
+            fill="#1a0604" opacity="0.7"/>
+      <!-- front ridge -->
+      <path d="M0,540 L50,510 L110,540 L170,500 L230,530 L290,490 L360,520 L360,640 L0,640 Z"
+            fill="#0a0301" opacity="0.85"/>
+    </svg>
+    <div class="grain-overlay"></div>
+    <div class="embers" id="embers"></div>
+    <a href="#about" class="hero-enter">Enter</a>
+  </div>
+
+  <div class="hero-role">
+    <span>Web</span>
+    <span>Developer</span>
+    <span style="color: var(--orange);">in progress</span>
+  </div>
+
+  <div class="hero-foot">
+    <span>Available for freelance — 2026</span>
+    <span>·</span>
+    <a href="#projects">Scroll to enter</a>
+  </div>
+</header>
+
+<!-- ───────── about ───────── -->
+<section id="about" class="reveal">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num"><strong>01</strong>About</div>
+      <h2 class="section-title">A young<br><em>web maker</em><br><span class="outlined-wrap" style="-webkit-text-stroke: 1.5px var(--ink); color: transparent;">from Normandie</span></h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          <strong>Nathan Mauduit, 19 ans, basé à Flers (Normandie).</strong>
+          Jeune développeur web passionné par la technologie et le numérique.
         </p>
-        <a href="#about" class="btn-main">
-            <span>Découvrir mon profil</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
+        <p>
+          Titulaire d'un BTS CPDE et fort d'une expérience en alternance dans la conception 3D industrielle,
+          j'ai choisi de me réorienter vers ma vraie passion : le <strong>développement web</strong>.
+        </p>
+        <p>
+          Actuellement en formation intensive à <strong>Le Wagon Bordeaux</strong> (9 semaines),
+          j'acquiers des compétences solides en HTML, CSS, JavaScript et Ruby on Rails.
+        </p>
+        <p>
+          Motivé, sérieux et adaptable. J'apprends vite, j'aime relever des défis techniques.
+          Après la formation, j'envisage de poursuivre en <strong>BUT MMI</strong>.
+        </p>
+
+        <div class="about-stats">
+          <div>
+            <div class="stat-num">1<span style="font-size:.5em">an</span></div>
+            <div class="stat-label">Alternance 3D</div>
+          </div>
+          <div>
+            <div class="stat-num">9<span style="font-size:.5em">sem</span></div>
+            <div class="stat-label">Le Wagon</div>
+          </div>
+          <div>
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Passion tech</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-list">
+        <div class="info-row"><div class="k">Localisation</div><div class="v">Flers, Normandie · 61</div></div>
+        <div class="info-row"><div class="k">Email</div><div class="v"><a href="mailto:na.mauduit@gmail.com">na.mauduit@gmail.com</a></div></div>
+        <div class="info-row"><div class="k">Téléphone</div><div class="v">06.45.05.31.67</div></div>
+        <div class="info-row"><div class="k">Mobilité</div><div class="v">Permis B · Véhiculé</div></div>
+        <div class="info-row"><div class="k">Formation</div><div class="v">Le Wagon · Bordeaux · 2026</div></div>
+        <div class="info-row"><div class="k">Statut</div><div class="v" style="color: var(--orange);">Disponible — Stage / Alternance</div></div>
+        <div class="info-row"><div class="k">Langues</div><div class="v">Français · Anglais pro</div></div>
+      </div>
     </div>
-    <div class="hero-scroll">
-        <span>Défiler</span>
-        <div class="scroll-line"></div>
-    </div>
-    <div class="hero-badge">Bordeaux · Normandie</div>
+  </div>
 </section>
 
-<!-- ══ ABOUT ═════════════════════════════════════════════════════════ -->
-<section id="about">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">01</span>
-            <div>
-                <p class="sec-label">À propos</p>
-                <h2 class="sec-title reveal-up">Qui suis-je ?</h2>
-            </div>
-        </div>
-        <div class="about-grid">
-            <div class="about-left reveal-left">
-                <div class="photo-inner">
-                    <span class="photo-initials">NM</span>
-                </div>
-                <div class="about-stats">
-                    <div class="stat-item">
-                        <span class="stat-num">1</span>
-                        <span class="stat-label">An d'alternance</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">9</span>
-                        <span class="stat-label">Semaines Le Wagon</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-num">∞</span>
-                        <span class="stat-label">Passion tech</span>
-                    </div>
-                </div>
-            </div>
-            <div class="about-content reveal-right">
-                <p>Je m'appelle <strong>Nathan Mauduit</strong>, jeune développeur web passionné par la technologie et le numérique. Titulaire d'un <span class="term-link" data-def="cpde">BTS CPDE</span> et fort d'une expérience en alternance dans la conception 3D industrielle, j'ai choisi de me réorienter vers ma vraie passion : le développement web.</p>
-                <p>Je suis actuellement en formation intensive à <span class="term-link" data-def="wagon">Le Wagon</span> à Bordeaux (9 semaines), où j'acquiers des compétences solides en HTML, CSS, JavaScript et Ruby on Rails.</p>
-                <p>Motivé, sérieux et doté d'une grande capacité d'adaptation, j'apprends vite et j'aime relever des défis techniques. Après cette formation, j'envisage de poursuivre en <span class="term-link" data-def="mmi">BUT MMI</span> afin d'approfondir mes connaissances en design numérique, communication web et développement.</p>
-                <div class="about-meta">
-                    <div class="meta-row"><span class="meta-k">Localisation</span><span class="meta-v">Flers, Normandie (61)</span></div>
-                    <div class="meta-row"><span class="meta-k">Email</span><span class="meta-v">na.mauduit@gmail.com</span></div>
-                    <div class="meta-row"><span class="meta-k">Téléphone</span><span class="meta-v">06.45.05.3167</span></div>
-                    <div class="meta-row"><span class="meta-k">Mobilité</span><span class="meta-v">Permis B · Véhiculé</span></div>
-                </div>
-            </div>
-        </div>
+<!-- ───────── projects ───────── -->
+<section id="projects" class="projects-section reveal">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num"><strong>02</strong>Selected Work</div>
+      <h2 class="section-title"><em>Projects</em><br><span style="-webkit-text-stroke: 1.5px var(--ink); color: transparent;">in progress</span></h2>
     </div>
+
+    <ul class="projects-list">
+      <li><a href="#" class="project-row">
+        <div class="project-num">001 —</div>
+        <div class="project-name">Le Wagon Final</div>
+        <div class="project-meta"><span class="year">2026</span><span>Full-Stack · Rails</span><span>En cours</span></div>
+        <div class="project-arrow">→</div>
+      </a></li>
+      <li><a href="#" class="project-row">
+        <div class="project-num">002 —</div>
+        <div class="project-name">Personal Site</div>
+        <div class="project-meta"><span class="year">2026</span><span>JS · CSS</span><span>En cours</span></div>
+        <div class="project-arrow">→</div>
+      </a></li>
+      <li><a href="#" class="project-row">
+        <div class="project-num">003 —</div>
+        <div class="project-name">Coming Soon</div>
+        <div class="project-meta"><span class="year">2026</span><span>BUT MMI</span><span>À venir</span></div>
+        <div class="project-arrow">→</div>
+      </a></li>
+      <li><a href="#" class="project-row">
+        <div class="project-num">004 —</div>
+        <div class="project-name">A2MO Industriel</div>
+        <div class="project-meta"><span class="year">2024</span><span>Catia V5 · 3D</span><span>Alternance</span></div>
+        <div class="project-arrow">→</div>
+      </a></li>
+      <li><a href="#" class="project-row">
+        <div class="project-num">005 —</div>
+        <div class="project-name">AFM Outillage</div>
+        <div class="project-meta"><span class="year">2023</span><span>Conception 3D</span><span>Stage</span></div>
+        <div class="project-arrow">→</div>
+      </a></li>
+    </ul>
+  </div>
 </section>
 
-<!-- ══ SKILLS ════════════════════════════════════════════════════════ -->
-<section id="skills">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">02</span>
-            <div>
-                <p class="sec-label">Savoir-faire</p>
-                <h2 class="sec-title reveal-up">Compétences</h2>
-            </div>
-        </div>
-        <div class="skills-wrap reveal-up">
-            <div class="skill-group">
-                <h4>Développement Web</h4>
-                <div class="skill-bar-item"><div class="sb-header"><span>HTML / CSS</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>JavaScript</span><span>60%</span></div><div class="sb-track"><div class="sb-fill" data-w="60"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>Ruby on Rails</span><span>55%</span></div><div class="sb-track"><div class="sb-fill" data-w="55"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>Git & GitHub</span><span>65%</span></div><div class="sb-track"><div class="sb-fill" data-w="65"></div></div></div>
-            </div>
-            <div class="skill-group">
-                <h4>Conception & Ingénierie</h4>
-                <div class="skill-bar-item"><div class="sb-header"><span>Catia V5</span><span>90%</span></div><div class="sb-track"><div class="sb-fill" data-w="90"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>SolidWorks</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>AutoForm</span><span>70%</span></div><div class="sb-track"><div class="sb-fill" data-w="70"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>Modélisation 3D</span><span>88%</span></div><div class="sb-track"><div class="sb-fill" data-w="88"></div></div></div>
-            </div>
-            <div class="skill-group">
-                <h4>Langues & Soft Skills</h4>
-                <div class="skill-bar-item"><div class="sb-header"><span>Français</span><span>Natif</span></div><div class="sb-track"><div class="sb-fill" data-w="100"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>Anglais</span><span>Professionnel</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>Esprit collaboratif</span><span>95%</span></div><div class="sb-track"><div class="sb-fill" data-w="95"></div></div></div>
-                <div class="skill-bar-item"><div class="sb-header"><span>Adaptabilité</span><span>95%</span></div><div class="sb-track"><div class="sb-fill" data-w="95"></div></div></div>
-            </div>
-        </div>
+<!-- ───────── skills ───────── -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num"><strong>03</strong>Skills</div>
+      <h2 class="section-title">Tools<br>&amp; <em>craft</em></h2>
     </div>
+
+    <div class="skills-grid">
+      <div class="skill-block">
+        <h4>Web Dev</h4>
+        <div class="skill-line"><span>HTML / CSS</span><span class="skill-bar"><i style="--w:75%"></i></span><span class="skill-num">75</span></div>
+        <div class="skill-line"><span>JavaScript</span><span class="skill-bar"><i style="--w:60%"></i></span><span class="skill-num">60</span></div>
+        <div class="skill-line"><span>Ruby on Rails</span><span class="skill-bar"><i style="--w:55%"></i></span><span class="skill-num">55</span></div>
+        <div class="skill-line"><span>Git / GitHub</span><span class="skill-bar"><i style="--w:65%"></i></span><span class="skill-num">65</span></div>
+      </div>
+      <div class="skill-block">
+        <h4>3D / Engineering</h4>
+        <div class="skill-line"><span>Catia V5</span><span class="skill-bar"><i style="--w:90%"></i></span><span class="skill-num">90</span></div>
+        <div class="skill-line"><span>SolidWorks</span><span class="skill-bar"><i style="--w:85%"></i></span><span class="skill-num">85</span></div>
+        <div class="skill-line"><span>AutoForm</span><span class="skill-bar"><i style="--w:70%"></i></span><span class="skill-num">70</span></div>
+        <div class="skill-line"><span>Modélisation 3D</span><span class="skill-bar"><i style="--w:88%"></i></span><span class="skill-num">88</span></div>
+      </div>
+      <div class="skill-block">
+        <h4>Soft Skills</h4>
+        <div class="skill-line"><span>Esprit collaboratif</span><span class="skill-bar"><i style="--w:95%"></i></span><span class="skill-num">95</span></div>
+        <div class="skill-line"><span>Adaptabilité</span><span class="skill-bar"><i style="--w:95%"></i></span><span class="skill-num">95</span></div>
+        <div class="skill-line"><span>Français</span><span class="skill-bar"><i style="--w:100%"></i></span><span class="skill-num">Natif</span></div>
+        <div class="skill-line"><span>Anglais</span><span class="skill-bar"><i style="--w:70%"></i></span><span class="skill-num">Pro</span></div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ══ EXPERIENCE ════════════════════════════════════════════════════ -->
-<section id="experience">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">03</span>
-            <div>
-                <p class="sec-label">Parcours professionnel</p>
-                <h2 class="sec-title reveal-up">Expériences</h2>
-            </div>
-        </div>
-        <div class="timeline">
-            <div class="tl-item reveal-up">
-                <div class="tl-left">
-                    <span class="tl-date">Sept. 2024 — Août 2025</span>
-                    <span class="tl-type">Alternance</span>
-                </div>
-                <div class="tl-spine"><div class="tl-dot"></div></div>
-                <div class="tl-right">
-                    <h3 class="tl-role">Apprenti Dessinateur 3D</h3>
-                    <p class="tl-company">A2MO · Athis-de-l'Orne (61)</p>
-                    <p class="tl-desc">En alternance au sein de l'entreprise A2MO, j'ai pris en charge la conception et la modélisation de pièces industrielles sur Catia V5. J'ai participé activement aux projets de bureau d'études, en collaboration avec les équipes techniques, en appliquant les méthodes de conception propres à l'emboutissage et à la découpe de tôle.</p>
-                    <div class="tl-tags"><span>Catia V5</span><span>Dessin industriel</span><span>Bureau d'études</span><span>Emboutissage</span></div>
-                </div>
-            </div>
-            <div class="tl-item reveal-up" style="--d:.1s">
-                <div class="tl-left">
-                    <span class="tl-date">Stage · 6 semaines</span>
-                    <span class="tl-type">Stage</span>
-                </div>
-                <div class="tl-spine"><div class="tl-dot"></div></div>
-                <div class="tl-right">
-                    <h3 class="tl-role">Stagiaire Dessinateur Industriel</h3>
-                    <p class="tl-company">AFM — Outillage de presse · Athis-de-l'Orne (61)</p>
-                    <p class="tl-desc">Stage au sein d'une entreprise spécialisée dans l'outillage de presse, durant lequel j'ai découvert le métier de concepteur d'outillages industriels. J'ai travaillé sur la conception de pièces et appris les exigences techniques liées aux processus de découpe et d'emboutissage.</p>
-                    <div class="tl-tags"><span>Outillage de presse</span><span>Conception 3D</span><span>Découpe</span></div>
-                </div>
-            </div>
-        </div>
+<!-- ───────── experience ───────── -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num"><strong>04</strong>Experience</div>
+      <h2 class="section-title"><em>Work</em> Path</h2>
     </div>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-meta"><strong>Sept. 2024<br>Août 2025</strong>1 an<span class="tl-tag">Alternance</span></div>
+        <div>
+          <h3 class="tl-title">Apprenti Dessinateur 3D</h3>
+          <div class="tl-org">A2MO · Athis-de-l'Orne (61)</div>
+          <p class="tl-desc">
+            Conception et modélisation de pièces industrielles sur Catia V5.
+            Participation aux projets de bureau d'études en collaboration avec les équipes techniques.
+            Méthodes de conception propres à l'emboutissage et la découpe de tôle.
+          </p>
+        </div>
+        <div class="tl-tags">
+          <span>Catia V5</span><span>Dessin industriel</span><span>Bureau d'études</span><span>Emboutissage</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-meta"><strong>2023</strong>6 semaines<span class="tl-tag">Stage</span></div>
+        <div>
+          <h3 class="tl-title">Stagiaire Dessinateur Industriel</h3>
+          <div class="tl-org">AFM Outillage de presse · Athis-de-l'Orne (61)</div>
+          <p class="tl-desc">
+            Stage en outillage de presse — découverte du métier de concepteur d'outillages industriels.
+            Conception de pièces et exigences techniques liées aux processus de découpe et d'emboutissage.
+          </p>
+        </div>
+        <div class="tl-tags">
+          <span>Outillage de presse</span><span>Conception 3D</span><span>Découpe</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ══ EDUCATION ══════════════════════════════════════════════════════ -->
-<section id="education">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">04</span>
-            <div>
-                <p class="sec-label">Parcours académique</p>
-                <h2 class="sec-title reveal-up">Formation</h2>
-            </div>
-        </div>
-        <div class="edu-grid">
-            <div class="edu-card reveal-up">
-                <div class="edu-card-top"><span class="edu-badge badge-active">En cours</span><span class="edu-year">2025 · 9 semaines</span></div>
-                <h3 class="edu-degree">Développement Web Full-Stack</h3>
-                <p class="edu-school"><span class="term-link" data-def="wagon">Le Wagon</span> · Bordeaux</p>
-                <p class="edu-desc">Formation intensive couvrant HTML/CSS, JavaScript, SQL, Ruby on Rails, APIs REST, Git et déploiement. Développement de projets web en équipe avec une approche produit et agile.</p>
-            </div>
-            <div class="edu-card reveal-up" style="--d:.1s">
-                <div class="edu-card-top"><span class="edu-badge badge-future">Projet futur</span><span class="edu-year">À venir</span></div>
-                <h3 class="edu-degree"><span class="term-link" data-def="mmi">BUT MMI</span></h3>
-                <p class="edu-school">Métiers du Multimédia et de l'Internet</p>
-                <p class="edu-desc">Compléter ma formation web par des compétences en design numérique, UX/UI et communication digitale, pour construire un profil complet dans le secteur du web.</p>
-            </div>
-            <div class="edu-card reveal-up" style="--d:.2s">
-                <div class="edu-card-top"><span class="edu-badge badge-obtained">Obtenu</span><span class="edu-year">2023 — 2025</span></div>
-                <h3 class="edu-degree"><span class="term-link" data-def="cpde">BTS CPDE</span></h3>
-                <p class="edu-school">Lycée Jean Guéhenno · Flers (61)</p>
-                <p class="edu-desc">BTS Conception des Processus de Découpe et d'Emboutissage. Formation en bureau d'études industriel, modélisation 3D, conception d'outillages et simulation de mise en forme.</p>
-            </div>
-            <div class="edu-card reveal-up" style="--d:.3s">
-                <div class="edu-card-top"><span class="edu-badge badge-obtained">Obtenu</span><span class="edu-year">2021 — 2023</span></div>
-                <h3 class="edu-degree">Baccalauréat <span class="term-link" data-def="sti2d">STI2D</span></h3>
-                <p class="edu-school">Lycée Jean Guéhenno · Flers (61)</p>
-                <p class="edu-desc">Sciences et Technologies de l'Industrie et du Développement Durable — obtenu en 2023.</p>
-            </div>
-        </div>
+<!-- ───────── education ───────── -->
+<section class="reveal">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num"><strong>05</strong>Education</div>
+      <h2 class="section-title">Academic<br><em>journey</em></h2>
     </div>
+
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-meta"><strong>2026</strong>9 semaines<span class="tl-tag" style="background: var(--orange);">En cours</span></div>
+        <div>
+          <h3 class="tl-title">Dev Web Full-Stack</h3>
+          <div class="tl-org">Le Wagon · Bordeaux</div>
+          <p class="tl-desc">
+            Formation intensive — HTML/CSS, JavaScript, SQL, Ruby on Rails, APIs REST, Git, déploiement.
+            Développement de projets web en équipe, approche produit et agile.
+          </p>
+        </div>
+        <div class="tl-tags">
+          <span>Rails</span><span>JS</span><span>SQL</span><span>API REST</span><span>Agile</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-meta"><strong>À venir</strong>Projet futur</div>
+        <div>
+          <h3 class="tl-title">BUT MMI</h3>
+          <div class="tl-org">Métiers du Multimédia et de l'Internet</div>
+          <p class="tl-desc">
+            Compléter ma formation web par des compétences en design numérique, UX/UI
+            et communication digitale, pour construire un profil complet.
+          </p>
+        </div>
+        <div class="tl-tags">
+          <span>UX/UI</span><span>Design</span><span>Comm. digitale</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-meta"><strong>2023 — 2025</strong><span class="tl-tag">Obtenu</span></div>
+        <div>
+          <h3 class="tl-title">BTS CPDE</h3>
+          <div class="tl-org">Lycée Jean Guéhenno · Flers (61)</div>
+          <p class="tl-desc">
+            BTS Conception des Processus de Découpe et d'Emboutissage.
+            Bureau d'études industriel, modélisation 3D, conception d'outillages, simulation de mise en forme.
+          </p>
+        </div>
+        <div class="tl-tags">
+          <span>Conception</span><span>3D</span><span>Outillages</span>
+        </div>
+      </div>
+
+      <div class="tl-row">
+        <div class="tl-meta"><strong>2021 — 2023</strong><span class="tl-tag">Obtenu</span></div>
+        <div>
+          <h3 class="tl-title">Bac STI2D</h3>
+          <div class="tl-org">Lycée Jean Guéhenno · Flers (61)</div>
+          <p class="tl-desc">
+            Sciences et Technologies de l'Industrie et du Développement Durable.
+            Obtenu en 2023.
+          </p>
+        </div>
+        <div class="tl-tags">
+          <span>Sciences</span><span>Industrie</span><span>Développement durable</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ══ PROJECTS ═══════════════════════════════════════════════════════ -->
-<section id="projects">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">05</span>
-            <div>
-                <p class="sec-label">Réalisations</p>
-                <h2 class="sec-title reveal-up">Projets Web</h2>
-            </div>
-        </div>
-        <div class="projects-grid">
-            <div class="project-card reveal-up">
-                <div class="project-coming-overlay"><span>Bientôt disponible</span><small>En cours de développement</small></div>
-                <div class="project-num">01</div>
-                <span class="project-type">Projet Le Wagon</span>
-                <h3 class="project-name">Projet #1</h3>
-                <p class="project-desc">Application web développée pendant la formation au Wagon.</p>
-                <div class="project-tags"><span>Ruby on Rails</span><span>HTML/CSS</span></div>
-            </div>
-            <div class="project-card reveal-up" style="--d:.12s">
-                <div class="project-coming-overlay"><span>Bientôt disponible</span><small>En cours de développement</small></div>
-                <div class="project-num">02</div>
-                <span class="project-type">Projet personnel</span>
-                <h3 class="project-name">Projet #2</h3>
-                <p class="project-desc">Projet personnel en cours de réalisation.</p>
-                <div class="project-tags"><span>JavaScript</span><span>CSS</span></div>
-            </div>
-            <div class="project-card reveal-up" style="--d:.24s">
-                <div class="project-coming-overlay"><span>Bientôt disponible</span><small>En cours de développement</small></div>
-                <div class="project-num">03</div>
-                <span class="project-type">Projet futur</span>
-                <h3 class="project-name">Projet #3</h3>
-                <p class="project-desc">À venir après la formation et les projets BUT MMI.</p>
-                <div class="project-tags"><span>À définir</span></div>
-            </div>
-        </div>
+<!-- ───────── passions ───────── -->
+<section class="passions-section reveal">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-num"><strong>06</strong>What I love</div>
+      <h2 class="section-title"><em>Passions</em><br>&amp; obsessions</h2>
     </div>
+
+    <div class="passions-grid">
+      <div class="passion">
+        <div class="passion-head">
+          <span class="passion-num">001 —</span>
+          <h3 class="passion-title">Anime &amp;<br>Manga</h3>
+        </div>
+        <p class="passion-desc">
+          Grand fan d'animation japonaise — action, shōnen, isekai, romance, fantasy.
+          Bien plus qu'un loisir : une passion pour la narration, l'art visuel et des univers
+          qui repoussent les limites de l'imagination.
+        </p>
+        <div class="passion-tags">
+          <span class="accent">One Piece</span>
+          <span>Attack on Titan</span>
+          <span>Naruto</span>
+          <span>Hunter × Hunter</span>
+          <span>Death Note</span>
+          <span>One Punch Man</span>
+          <span>Demon Slayer</span>
+          <span>Solo Leveling</span>
+        </div>
+      </div>
+
+      <div class="passion">
+        <div class="passion-head">
+          <span class="passion-num">002 —</span>
+          <h3 class="passion-title">Jeux<br>Vidéo</h3>
+        </div>
+        <p class="passion-desc">
+          Joueur passionné depuis l'enfance. D'innombrables heures à explorer, construire
+          et m'affronter dans des univers virtuels. Le jeu vidéo m'a appris la stratégie,
+          la persévérance et l'esprit d'équipe.
+        </p>
+        <div class="passion-tags">
+          <span class="accent">Minecraft</span>
+          <span>Counter-Strike</span>
+          <span>Rocket League</span>
+          <span>Zelda OST</span>
+        </div>
+      </div>
+
+      <div class="passion">
+        <div class="passion-head">
+          <span class="passion-num">003 —</span>
+          <h3 class="passion-title">Pêche<br>en rivière</h3>
+        </div>
+        <p class="passion-desc">
+          Vrai moment de déconnexion et de nature. J'aime aller en rivière,
+          observer l'environnement, me laisser porter par la patience que demande ce sport.
+          Concentration, calme, plaisir de l'instant présent.
+        </p>
+        <div class="passion-tags">
+          <span class="accent">Rivière</span>
+          <span>Nature</span>
+          <span>Détente</span>
+          <span>Patience</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ══ PASSIONS ═══════════════════════════════════════════════════════ -->
-<section id="passions">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">06</span>
-            <div>
-                <p class="sec-label">Ce qui me passionne</p>
-                <h2 class="sec-title reveal-up">Passions & Loisirs</h2>
-            </div>
+<!-- ───────── contact ───────── -->
+<section id="contact" class="contact-section reveal">
+  <div class="container">
+    <div class="contact-block">
+      <div class="contact-eyebrow">— 07 / Get in touch</div>
+      <h2 class="contact-title">Let's build<br>something <em>great</em></h2>
+      <a href="mailto:na.mauduit@gmail.com" class="contact-email">na.mauduit@gmail.com →</a>
+
+      <div class="contact-grid">
+        <div class="contact-cell">
+          <div class="label">Email</div>
+          <div class="value">na.mauduit<br>@gmail.com</div>
         </div>
-        <div class="passions-grid">
-            <div class="passion-card reveal-up">
-                <div class="passion-icon-wrap">⚔️</div>
-                <div class="passion-body">
-                    <h3>Anime & Manga</h3>
-                    <p>Grand fan d'animation japonaise depuis toujours, avec une liste bien garnie en tous genres — action, shōnen, isekai, romance, fantasy... L'animé est pour moi bien plus qu'un loisir : une passion pour la narration, l'art visuel et des univers qui repoussent les limites de l'imagination.</p>
-                    <div class="anime-list">
-                        <div class="anime-list-label">✓ Terminés · notés 9/10 — cliquez pour le synopsis</div>
-                        <div class="anime-cards-grid">
-                            <div class="anime-card-item" data-def="onepiece"><span class="anime-card-title">One Piece</span><span class="anime-card-genre">Aventure · Shōnen</span></div>
-                            <div class="anime-card-item" data-def="aot"><span class="anime-card-title">Attack on Titan</span><span class="anime-card-genre">Action · Drame</span></div>
-                            <div class="anime-card-item" data-def="naruto"><span class="anime-card-title">Naruto / Shippuden</span><span class="anime-card-genre">Action · Shōnen</span></div>
-                            <div class="anime-card-item" data-def="hxh"><span class="anime-card-title">Hunter x Hunter</span><span class="anime-card-genre">Action · Aventure</span></div>
-                            <div class="anime-card-item" data-def="deathnote"><span class="anime-card-title">Death Note</span><span class="anime-card-genre">Thriller · Psychologique</span></div>
-                            <div class="anime-card-item" data-def="opm"><span class="anime-card-title">One Punch Man</span><span class="anime-card-genre">Action · Comédie</span></div>
-                            <div class="anime-card-item" data-def="demonslayer"><span class="anime-card-title">Demon Slayer</span><span class="anime-card-genre">Action · Aventure</span></div>
-                            <div class="anime-card-item" data-def="assassin"><span class="anime-card-title">Assassination Classroom</span><span class="anime-card-genre">Action · Comédie</span></div>
-                            <div class="anime-card-item" data-def="sololeveling"><span class="anime-card-title">Solo Leveling</span><span class="anime-card-genre">Action · Fantasy</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="passion-card reveal-up" style="--d:.15s">
-                <div class="passion-icon-wrap">🎮</div>
-                <div class="passion-body">
-                    <h3>Jeux Vidéo</h3>
-                    <p>Joueur passionné depuis l'enfance, j'ai passé d'innombrables heures à explorer, construire et m'affronter dans des univers virtuels. Que ce soit seul ou en compétition avec des amis, le jeu vidéo m'a appris la stratégie, la persévérance et l'esprit d'équipe.</p>
-                    <div class="passion-tags"><span>Minecraft</span><span>Counter-Strike</span><span>Rocket League</span><span>& bien d'autres</span></div>
-                </div>
-            </div>
-            <div class="passion-card reveal-up" style="--d:.3s">
-                <div class="passion-icon-wrap">🎣</div>
-                <div class="passion-body">
-                    <h3>Pêche</h3>
-                    <p>La pêche est pour moi un vrai moment de déconnexion et de nature. J'adore aller en rivière, observer l'environnement et me laisser porter par la patience que demande ce sport. Un équilibre parfait entre concentration, calme et plaisir de l'instant présent.</p>
-                    <div class="passion-tags"><span>Pêche en rivière</span><span>Nature</span><span>Détente</span></div>
-                </div>
-            </div>
+        <div class="contact-cell">
+          <div class="label">Téléphone</div>
+          <div class="value">06.45.05<br>31.67</div>
         </div>
+        <div class="contact-cell">
+          <div class="label">Localisation</div>
+          <div class="value">Flers · 61<br>Normandie</div>
+        </div>
+        <div class="contact-cell">
+          <div class="label">Mobilité</div>
+          <div class="value">Permis B<br>Véhiculé</div>
+        </div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- ══ CONTACT ════════════════════════════════════════════════════════ -->
-<section id="contact">
-    <div class="container">
-        <div class="sec-header">
-            <span class="sec-num">07</span>
-            <div>
-                <p class="sec-label">Restons en contact</p>
-                <h2 class="sec-title reveal-up">Me contacter</h2>
-            </div>
-        </div>
-        <div class="contact-grid">
-            <div class="contact-info reveal-left">
-                <p class="contact-intro">Vous souhaitez échanger sur une opportunité professionnelle, un projet web, ou simplement en savoir plus sur mon profil ? N'hésitez pas à me contacter, je réponds rapidement et avec plaisir.</p>
-                <div class="contact-items">
-                    <div class="c-item"><span class="c-icon">✉</span><div><span class="c-label">Email</span><span class="c-val">na.mauduit@gmail.com</span></div></div>
-                    <div class="c-item"><span class="c-icon">📞</span><div><span class="c-label">Téléphone</span><span class="c-val">06.45.05.3167</span></div></div>
-                    <div class="c-item"><span class="c-icon">📍</span><div><span class="c-label">Localisation</span><span class="c-val">Flers, Normandie · 61100</span></div></div>
-                    <div class="c-item"><span class="c-icon">🚗</span><div><span class="c-label">Mobilité</span><span class="c-val">Permis B · Véhiculé</span></div></div>
-                </div>
-            </div>
-            <form class="contact-form reveal-right" onsubmit="submitForm(event)">
-                <div class="form-group"><label>Votre nom</label><input type="text" placeholder="Jean Dupont" required></div>
-                <div class="form-group"><label>Email</label><input type="email" placeholder="jean@exemple.com" required></div>
-                <div class="form-group"><label>Message</label><textarea placeholder="Votre message..." required></textarea></div>
-                <button type="submit" class="btn-submit">
-                    <span>Envoyer</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-            </form>
-        </div>
-    </div>
-</section>
-
-<!-- ══ FOOTER ═════════════════════════════════════════════════════════ -->
 <footer>
-    <span class="foot-logo">Nathan Mauduit</span>
-    <p>© 2026 · Tous droits réservés</p>
-    <div class="foot-links">
-        <a href="#about">À propos</a>
-        <a href="#contact">Contact</a>
-    </div>
+  <span>© 2026 Nathan Mauduit</span>
+  <span class="center">Designed &amp; built in Normandie</span>
+  <span class="right"><a href="#top">Back to top ↑</a></span>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  // ember sparks rising in the hero stage
+  (function () {
+    const stage = document.getElementById('embers');
+    if (!stage) return;
+    const COUNT = 30;
+    const sparks = [];
+    for (let i = 0; i < COUNT; i++) {
+      const s = document.createElement('div');
+      s.style.cssText = `
+        position:absolute;
+        width:2px;height:2px;
+        border-radius:50%;
+        background:#ffb060;
+        box-shadow:0 0 4px #ff8030, 0 0 8px #ff5010;
+        opacity:0;
+        will-change:transform,opacity;
+      `;
+      stage.appendChild(s);
+      sparks.push({
+        el: s,
+        x: Math.random() * 100,
+        y: 100 + Math.random() * 20,
+        vy: 0.15 + Math.random() * 0.4,
+        vx: (Math.random() - 0.5) * 0.1,
+        size: 1 + Math.random() * 2.5,
+        life: Math.random(),
+        maxLife: 1 + Math.random() * 2,
+      });
+    }
+    function tick() {
+      for (const p of sparks) {
+        p.x += p.vx;
+        p.y -= p.vy;
+        p.life += 0.012;
+        if (p.life > p.maxLife || p.y < -5) {
+          p.x = Math.random() * 100;
+          p.y = 100 + Math.random() * 10;
+          p.life = 0;
+          p.vy = 0.15 + Math.random() * 0.4;
+        }
+        const fade = Math.sin((p.life / p.maxLife) * Math.PI);
+        p.el.style.transform = `translate(${p.x}%, ${p.y}%) scale(${p.size * fade})`;
+        p.el.style.opacity = fade * 0.9;
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  // background music toggle (Zelda OST)
+  (function () {
+    const btn = document.getElementById('music-toggle');
+    const audio = document.getElementById('bg-music');
+    if (!btn || !audio) return;
+    audio.volume = 0.35;
+    let started = false;
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().then(() => {
+          btn.classList.add('playing');
+          started = true;
+        }).catch(() => {
+          // autoplay blocked or file missing — silently fail
+          btn.classList.remove('playing');
+        });
+      } else {
+        audio.pause();
+        btn.classList.remove('playing');
+      }
+    });
+    // pause when tab hidden, resume when back if was playing
+    document.addEventListener('visibilitychange', () => {
+      if (!started) return;
+      if (document.hidden) audio.pause();
+      else if (btn.classList.contains('playing')) audio.play().catch(() => {});
+    });
+  })();
+
+  // reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>
+
 </body>
 </html>
