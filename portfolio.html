@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nathan Mauduit — Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══ CURSOR ══════════════════════════════════════════════════════ -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- ══ LOADER ══════════════════════════════════════════════════════ -->
+<div id="loader">
+    <div class="loader-text">NM</div>
+    <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- ══ AUDIO ═══════════════════════════════════════════════════════ -->
+<audio id="bg-music" loop preload="auto">
+    <source src="music/zelda.mp3" type="audio/mpeg">
+</audio>
+<div id="volume-wrap">
+    <span>🔈</span>
+    <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+    <span>🔊</span>
+</div>
+<button id="music-btn"><span class="ring"></span>🎵</button>
+
+<!-- ══ DEF PANEL ════════════════════════════════════════════════════ -->
+<div id="def-panel">
+    <button id="def-close">✕</button>
+    <div class="def-inner">
+        <div class="def-type" id="def-type"></div>
+        <div class="def-title" id="def-title"></div>
+        <div class="def-body" id="def-body"></div>
+        <div class="def-themes-wrap" id="def-themes"></div>
+        <a id="def-link-el" href="#" target="_blank" rel="noopener noreferrer"></a>
+    </div>
+</div>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<nav id="navbar">
+    <a href="#" class="nav-logo">NM</a>
+    <ul class="nav-links">
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Expérience</a></li>
+        <li><a href="#education">Formation</a></li>
+        <li><a href="#projects">Projets</a></li>
+        <li><a href="#passions">Passions</a></li>
+        <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- ══ HERO ═════════════════════════════════════════════════════════ -->
+<section id="hero">
+    <canvas id="particles"></canvas>
+    <div class="hero-inner">
+        <div class="hero-tag">Portfolio · 2025</div>
+        <h1 class="hero-name">
+            <span class="line" style="--d:.1s">Nathan</span>
+            <span class="line accent-line" style="--d:.28s">Mauduit</span>
+        </h1>
+        <p class="hero-sub">
+            <span id="typewriter"></span><span class="cursor">_</span>
+        </p>
+        <a href="#about" class="btn-main">
+            <span>Découvrir mon profil</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </div>
+    <div class="hero-scroll">
+        <span>Défiler</span>
+        <div class="scroll-line"></div>
+    </div>
+    <div class="hero-badge">Bordeaux · Normandie</div>
+</section>
+
+<!-- ══ ABOUT ═════════════════════════════════════════════════════════ -->
+<section id="about">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">01</span>
+            <div>
+                <p class="sec-label">À propos</p>
+                <h2 class="sec-title reveal-up">Qui suis-je ?</h2>
+            </div>
+        </div>
+        <div class="about-grid">
+            <div class="about-left reveal-left">
+                <div class="photo-inner">
+                    <span class="photo-initials">NM</span>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-num">2</span>
+                        <span class="stat-label">Ans d'alternance</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">9</span>
+                        <span class="stat-label">Semaines Le Wagon</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-label">Passion tech</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-content reveal-right">
+                <p>Je m'appelle <strong>Nathan Mauduit</strong>, jeune développeur web passionné par la technologie et le numérique. Titulaire d'un <span class="term-link" data-def="cpde">BTS CPDE</span> et fort d'une expérience en alternance dans la conception 3D industrielle, j'ai choisi de me réorienter vers ma vraie passion : le développement web.</p>
+                <p>Je suis actuellement en formation intensive à <span class="term-link" data-def="wagon">Le Wagon</span> à Bordeaux (9 semaines), où j'acquiers des compétences solides en HTML, CSS, JavaScript et Ruby on Rails.</p>
+                <p>Motivé, sérieux et doté d'une grande capacité d'adaptation, j'apprends vite et j'aime relever des défis techniques. Après cette formation, j'envisage de poursuivre en <span class="term-link" data-def="mmi">BUT MMI</span> afin d'approfondir mes connaissances en design numérique, communication web et développement.</p>
+                <div class="about-meta">
+                    <div class="meta-row"><span class="meta-k">Localisation</span><span class="meta-v">Flers, Normandie (61)</span></div>
+                    <div class="meta-row"><span class="meta-k">Email</span><span class="meta-v">na.mauduit@gmail.com</span></div>
+                    <div class="meta-row"><span class="meta-k">Téléphone</span><span class="meta-v">06.45.05.3167</span></div>
+                    <div class="meta-row"><span class="meta-k">Mobilité</span><span class="meta-v">Permis B · Véhiculé</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ SKILLS ════════════════════════════════════════════════════════ -->
+<section id="skills">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">02</span>
+            <div>
+                <p class="sec-label">Savoir-faire</p>
+                <h2 class="sec-title reveal-up">Compétences</h2>
+            </div>
+        </div>
+        <div class="skills-wrap reveal-up">
+            <div class="skill-group">
+                <h4>Développement Web</h4>
+                <div class="skill-bar-item"><div class="sb-header"><span>HTML / CSS</span><span>75%</span></div><div class="sb-track"><div class="sb-fill" data-w="75"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>JavaScript</span><span>60%</span></div><div class="sb-track"><div class="sb-fill" data-w="60"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>Ruby on Rails</span><span>55%</span></div><div class="sb-track"><div class="sb-fill" data-w="55"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>Git & GitHub</span><span>65%</span></div><div class="sb-track"><div class="sb-fill" data-w="65"></div></div></div>
+            </div>
+            <div class="skill-group">
+                <h4>Conception & Ingénierie</h4>
+                <div class="skill-bar-item"><div class="sb-header"><span>Catia V5</span><span>90%</span></div><div class="sb-track"><div class="sb-fill" data-w="90"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>SolidWorks</span><span>85%</span></div><div class="sb-track"><div class="sb-fill" data-w="85"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>AutoForm</span><span>70%</span></div><div class="sb-track"><div class="sb-fill" data-w="70"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>Modélisation 3D</span><span>88%</span></div><div class="sb-track"><div class="sb-fill" data-w="88"></div></div></div>
+            </div>
+            <div class="skill-group">
+                <h4>Langues & Soft Skills</h4>
+                <div class="skill-bar-item"><div class="sb-header"><span>Français</span><span>Natif</span></div><div class="sb-track"><div class="sb-fill" data-w="100"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>Anglais</span><span>Professionnel</span></div><div class="sb-track"><div class="sb-fill" data-w="80"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>Esprit collaboratif</span><span>95%</span></div><div class="sb-track"><div class="sb-fill" data-w="95"></div></div></div>
+                <div class="skill-bar-item"><div class="sb-header"><span>Adaptabilité</span><span>95%</span></div><div class="sb-track"><div class="sb-fill" data-w="95"></div></div></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ EXPERIENCE ════════════════════════════════════════════════════ -->
+<section id="experience">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">03</span>
+            <div>
+                <p class="sec-label">Parcours professionnel</p>
+                <h2 class="sec-title reveal-up">Expériences</h2>
+            </div>
+        </div>
+        <div class="timeline">
+            <div class="tl-item reveal-up">
+                <div class="tl-left">
+                    <span class="tl-date">Sept. 2024 — Août 2025</span>
+                    <span class="tl-type">Alternance</span>
+                </div>
+                <div class="tl-spine"><div class="tl-dot"></div></div>
+                <div class="tl-right">
+                    <h3 class="tl-role">Apprenti Dessinateur 3D</h3>
+                    <p class="tl-company">A2MO · Athis-de-l'Orne (61)</p>
+                    <p class="tl-desc">En alternance au sein de l'entreprise A2MO, j'ai pris en charge la conception et la modélisation de pièces industrielles sur Catia V5. J'ai participé activement aux projets de bureau d'études, en collaboration avec les équipes techniques, en appliquant les méthodes de conception propres à l'emboutissage et à la découpe de tôle.</p>
+                    <div class="tl-tags"><span>Catia V5</span><span>Dessin industriel</span><span>Bureau d'études</span><span>Emboutissage</span></div>
+                </div>
+            </div>
+            <div class="tl-item reveal-up" style="--d:.1s">
+                <div class="tl-left">
+                    <span class="tl-date">Stage · 6 semaines</span>
+                    <span class="tl-type">Stage</span>
+                </div>
+                <div class="tl-spine"><div class="tl-dot"></div></div>
+                <div class="tl-right">
+                    <h3 class="tl-role">Stagiaire Dessinateur Industriel</h3>
+                    <p class="tl-company">AFM — Outillage de presse · Athis-de-l'Orne (61)</p>
+                    <p class="tl-desc">Stage au sein d'une entreprise spécialisée dans l'outillage de presse, durant lequel j'ai découvert le métier de concepteur d'outillages industriels. J'ai travaillé sur la conception de pièces et appris les exigences techniques liées aux processus de découpe et d'emboutissage.</p>
+                    <div class="tl-tags"><span>Outillage de presse</span><span>Conception 3D</span><span>Découpe</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ EDUCATION ══════════════════════════════════════════════════════ -->
+<section id="education">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">04</span>
+            <div>
+                <p class="sec-label">Parcours académique</p>
+                <h2 class="sec-title reveal-up">Formation</h2>
+            </div>
+        </div>
+        <div class="edu-grid">
+            <div class="edu-card reveal-up">
+                <div class="edu-card-top"><span class="edu-badge badge-active">En cours</span><span class="edu-year">2025 · 9 semaines</span></div>
+                <h3 class="edu-degree">Développement Web Full-Stack</h3>
+                <p class="edu-school"><span class="term-link" data-def="wagon">Le Wagon</span> · Bordeaux</p>
+                <p class="edu-desc">Formation intensive couvrant HTML/CSS, JavaScript, SQL, Ruby on Rails, APIs REST, Git et déploiement. Développement de projets web en équipe avec une approche produit et agile.</p>
+            </div>
+            <div class="edu-card reveal-up" style="--d:.1s">
+                <div class="edu-card-top"><span class="edu-badge badge-future">Projet futur</span><span class="edu-year">À venir</span></div>
+                <h3 class="edu-degree"><span class="term-link" data-def="mmi">BUT MMI</span></h3>
+                <p class="edu-school">Métiers du Multimédia et de l'Internet</p>
+                <p class="edu-desc">Compléter ma formation web par des compétences en design numérique, UX/UI et communication digitale, pour construire un profil complet dans le secteur du web.</p>
+            </div>
+            <div class="edu-card reveal-up" style="--d:.2s">
+                <div class="edu-card-top"><span class="edu-badge badge-obtained">Obtenu</span><span class="edu-year">2023 — 2025</span></div>
+                <h3 class="edu-degree"><span class="term-link" data-def="cpde">BTS CPDE</span></h3>
+                <p class="edu-school">Lycée Jean Guéhenno · Flers (61)</p>
+                <p class="edu-desc">BTS Conception des Processus de Découpe et d'Emboutissage. Formation en bureau d'études industriel, modélisation 3D, conception d'outillages et simulation de mise en forme.</p>
+            </div>
+            <div class="edu-card reveal-up" style="--d:.3s">
+                <div class="edu-card-top"><span class="edu-badge badge-obtained">Obtenu</span><span class="edu-year">2021 — 2023</span></div>
+                <h3 class="edu-degree">Baccalauréat <span class="term-link" data-def="sti2d">STI2D</span></h3>
+                <p class="edu-school">Lycée Jean Guéhenno · Flers (61)</p>
+                <p class="edu-desc">Sciences et Technologies de l'Industrie et du Développement Durable — obtenu en 2023.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ PROJECTS ═══════════════════════════════════════════════════════ -->
+<section id="projects">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">05</span>
+            <div>
+                <p class="sec-label">Réalisations</p>
+                <h2 class="sec-title reveal-up">Projets Web</h2>
+            </div>
+        </div>
+        <div class="projects-grid">
+            <div class="project-card reveal-up">
+                <div class="project-coming-overlay"><span>Bientôt disponible</span><small>En cours de développement</small></div>
+                <div class="project-num">01</div>
+                <span class="project-type">Projet Le Wagon</span>
+                <h3 class="project-name">Projet #1</h3>
+                <p class="project-desc">Application web développée pendant la formation au Wagon.</p>
+                <div class="project-tags"><span>Ruby on Rails</span><span>HTML/CSS</span></div>
+            </div>
+            <div class="project-card reveal-up" style="--d:.12s">
+                <div class="project-coming-overlay"><span>Bientôt disponible</span><small>En cours de développement</small></div>
+                <div class="project-num">02</div>
+                <span class="project-type">Projet personnel</span>
+                <h3 class="project-name">Projet #2</h3>
+                <p class="project-desc">Projet personnel en cours de réalisation.</p>
+                <div class="project-tags"><span>JavaScript</span><span>CSS</span></div>
+            </div>
+            <div class="project-card reveal-up" style="--d:.24s">
+                <div class="project-coming-overlay"><span>Bientôt disponible</span><small>En cours de développement</small></div>
+                <div class="project-num">03</div>
+                <span class="project-type">Projet futur</span>
+                <h3 class="project-name">Projet #3</h3>
+                <p class="project-desc">À venir après la formation et les projets BUT MMI.</p>
+                <div class="project-tags"><span>À définir</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ PASSIONS ═══════════════════════════════════════════════════════ -->
+<section id="passions">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">06</span>
+            <div>
+                <p class="sec-label">Ce qui me passionne</p>
+                <h2 class="sec-title reveal-up">Passions & Loisirs</h2>
+            </div>
+        </div>
+        <div class="passions-grid">
+            <div class="passion-card reveal-up">
+                <div class="passion-icon-wrap">⚔️</div>
+                <div class="passion-body">
+                    <h3>Anime & Manga</h3>
+                    <p>Grand fan d'animation japonaise depuis toujours, avec une liste bien garnie en tous genres — action, shōnen, isekai, romance, fantasy... L'animé est pour moi bien plus qu'un loisir : une passion pour la narration, l'art visuel et des univers qui repoussent les limites de l'imagination.</p>
+                    <div class="anime-list">
+                        <div class="anime-list-label">✓ Terminés · notés 9/10 — cliquez pour le synopsis</div>
+                        <div class="anime-cards-grid">
+                            <div class="anime-card-item" data-def="onepiece"><span class="anime-card-title">One Piece</span><span class="anime-card-genre">Aventure · Shōnen</span></div>
+                            <div class="anime-card-item" data-def="aot"><span class="anime-card-title">Attack on Titan</span><span class="anime-card-genre">Action · Drame</span></div>
+                            <div class="anime-card-item" data-def="naruto"><span class="anime-card-title">Naruto / Shippuden</span><span class="anime-card-genre">Action · Shōnen</span></div>
+                            <div class="anime-card-item" data-def="hxh"><span class="anime-card-title">Hunter x Hunter</span><span class="anime-card-genre">Action · Aventure</span></div>
+                            <div class="anime-card-item" data-def="deathnote"><span class="anime-card-title">Death Note</span><span class="anime-card-genre">Thriller · Psychologique</span></div>
+                            <div class="anime-card-item" data-def="opm"><span class="anime-card-title">One Punch Man</span><span class="anime-card-genre">Action · Comédie</span></div>
+                            <div class="anime-card-item" data-def="demonslayer"><span class="anime-card-title">Demon Slayer</span><span class="anime-card-genre">Action · Aventure</span></div>
+                            <div class="anime-card-item" data-def="assassin"><span class="anime-card-title">Assassination Classroom</span><span class="anime-card-genre">Action · Comédie</span></div>
+                            <div class="anime-card-item" data-def="sololeveling"><span class="anime-card-title">Solo Leveling</span><span class="anime-card-genre">Action · Fantasy</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="passion-card reveal-up" style="--d:.15s">
+                <div class="passion-icon-wrap">🎮</div>
+                <div class="passion-body">
+                    <h3>Jeux Vidéo</h3>
+                    <p>Joueur passionné depuis l'enfance, j'ai passé d'innombrables heures à explorer, construire et m'affronter dans des univers virtuels. Que ce soit seul ou en compétition avec des amis, le jeu vidéo m'a appris la stratégie, la persévérance et l'esprit d'équipe.</p>
+                    <div class="passion-tags"><span>Minecraft</span><span>Counter-Strike</span><span>Rocket League</span><span>& bien d'autres</span></div>
+                </div>
+            </div>
+            <div class="passion-card reveal-up" style="--d:.3s">
+                <div class="passion-icon-wrap">🎣</div>
+                <div class="passion-body">
+                    <h3>Pêche</h3>
+                    <p>La pêche est pour moi un vrai moment de déconnexion et de nature. J'adore aller en rivière, observer l'environnement et me laisser porter par la patience que demande ce sport. Un équilibre parfait entre concentration, calme et plaisir de l'instant présent.</p>
+                    <div class="passion-tags"><span>Pêche en rivière</span><span>Nature</span><span>Détente</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ══ CONTACT ════════════════════════════════════════════════════════ -->
+<section id="contact">
+    <div class="container">
+        <div class="sec-header">
+            <span class="sec-num">07</span>
+            <div>
+                <p class="sec-label">Restons en contact</p>
+                <h2 class="sec-title reveal-up">Me contacter</h2>
+            </div>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info reveal-left">
+                <p class="contact-intro">Vous souhaitez échanger sur une opportunité professionnelle, un projet web, ou simplement en savoir plus sur mon profil ? N'hésitez pas à me contacter, je réponds rapidement et avec plaisir.</p>
+                <div class="contact-items">
+                    <div class="c-item"><span class="c-icon">✉</span><div><span class="c-label">Email</span><span class="c-val">na.mauduit@gmail.com</span></div></div>
+                    <div class="c-item"><span class="c-icon">📞</span><div><span class="c-label">Téléphone</span><span class="c-val">06.45.05.3167</span></div></div>
+                    <div class="c-item"><span class="c-icon">📍</span><div><span class="c-label">Localisation</span><span class="c-val">Flers, Normandie · 61100</span></div></div>
+                    <div class="c-item"><span class="c-icon">🚗</span><div><span class="c-label">Mobilité</span><span class="c-val">Permis B · Véhiculé</span></div></div>
+                </div>
+            </div>
+            <form class="contact-form reveal-right" onsubmit="submitForm(event)">
+                <div class="form-group"><label>Votre nom</label><input type="text" placeholder="Jean Dupont" required></div>
+                <div class="form-group"><label>Email</label><input type="email" placeholder="jean@exemple.com" required></div>
+                <div class="form-group"><label>Message</label><textarea placeholder="Votre message..." required></textarea></div>
+                <button type="submit" class="btn-submit">
+                    <span>Envoyer</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════════════════ -->
+<footer>
+    <span class="foot-logo">Nathan Mauduit</span>
+    <p>© 2025 · Tous droits réservés</p>
+    <div class="foot-links">
+        <a href="#about">À propos</a>
+        <a href="#contact">Contact</a>
+    </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
