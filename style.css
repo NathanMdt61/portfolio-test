@@ -2,24 +2,24 @@
 
 /* ── LIGHT MODE (défaut) ────────────────────────── */
 :root {
-    --bg:          #EFF8F6;
-    --bg2:         #E4F3F0;
-    --surface:     #D5EDEA;
-    --surface2:    #C3E4DF;
-    --border:      rgba(10,155,145,0.15);
-    --border2:     rgba(10,155,145,0.30);
-    --text:        #0B2927;
-    --text-dim:    rgba(11,41,39,0.62);
-    --text-muted:  rgba(11,41,39,0.38);
-    --accent:      #0AB3AA;
-    --accent-dim:  rgba(10,179,170,0.12);
-    --hero-glow1:  rgba(10,179,170,0.13);
-    --hero-glow2:  rgba(160,225,218,0.4);
-    --hero-grad:   linear-gradient(160deg,#EFF8F6 0%,#E4F3F0 30%,#D5EDEA 55%,#E4F3F0 80%,#EFF8F6 100%);
-    --nav-bg:      rgba(239,248,246,.95);
-    --overlay-bg:  rgba(239,248,246,.88);
-    --body-glow:   radial-gradient(ellipse at 70% 5%,rgba(10,179,170,0.07) 0%,transparent 50%),
-                   radial-gradient(ellipse at 15% 90%,rgba(160,225,218,0.12) 0%,transparent 45%);
+    --bg:          #EBF3FA;
+    --bg2:         #DDE9F5;
+    --surface:     #CCDCEE;
+    --surface2:    #B8CCE4;
+    --border:      rgba(16,100,180,0.14);
+    --border2:     rgba(16,100,180,0.28);
+    --text:        #091929;
+    --text-dim:    rgba(9,25,41,0.62);
+    --text-muted:  rgba(9,25,41,0.38);
+    --accent:      #10C8BE;
+    --accent-dim:  rgba(16,200,190,0.12);
+    --hero-glow1:  rgba(16,200,190,0.12);
+    --hero-glow2:  rgba(140,195,235,0.45);
+    --hero-grad:   linear-gradient(160deg,#EBF3FA 0%,#DDE9F5 30%,#CCDCEE 55%,#DDE9F5 80%,#EBF3FA 100%);
+    --nav-bg:      rgba(235,243,250,.96);
+    --overlay-bg:  rgba(235,243,250,.90);
+    --body-glow:   radial-gradient(ellipse at 70% 5%,rgba(16,200,190,0.08) 0%,transparent 50%),
+                   radial-gradient(ellipse at 15% 90%,rgba(140,195,235,0.15) 0%,transparent 45%);
 }
 
 /* ── DARK MODE ──────────────────────────────────── */
@@ -643,16 +643,14 @@ footer p { font-size: .74rem; color: var(--text-muted); }
     pointer-events: none;
     z-index: 10;
     border-radius: 0 100% 0 100%;
-    opacity: 0;
-    animation: leafFall linear both;
 }
 
 @keyframes leafFall {
     0%   { transform: translateY(-40px) translateX(0) rotate(0deg) scale(0.7); opacity: 0; }
     8%   { opacity: 0.7; }
-    50%  { transform: translateY(50vh) translateX(calc(var(--drift, 80px) * 0.5)) rotate(calc(var(--rot, 360deg) * 0.5)) scale(1); }
+    50%  { transform: translateY(50vh) translateX(calc(var(--drift) * 0.5)) rotate(calc(var(--rot) * 0.5)) scale(1); }
     92%  { opacity: 0.5; }
-    100% { transform: translateY(110vh) translateX(var(--drift, 80px)) rotate(var(--rot, 360deg)) scale(0.9); opacity: 0; }
+    100% { transform: translateY(110vh) translateX(var(--drift)) rotate(var(--rot)) scale(0.9); opacity: 0; }
 }
 
 /* ── RESPONSIVE ─────────────────────────────────── */

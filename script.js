@@ -157,9 +157,8 @@ function spawnLeaf() {
         width:${size}px;height:${size}px;
         background:${color};
         left:${startX}vw;top:-40px;
-        animation-duration:${duration}s;
-        animation-delay:${delay}s;
         --drift:${drift}px;--rot:${rot}deg;
+        animation:leafFall ${duration}s ${delay}s linear both;
     `;
     document.body.appendChild(leaf);
     setTimeout(() => leaf.remove(), (duration + delay) * 1000 + 500);
@@ -350,39 +349,44 @@ const musicBtn  = document.getElementById('music-btn');
 const volWrap   = document.getElementById('volume-wrap');
 const volSlider = document.getElementById('volume-slider');
 let isPlaying   = false;
-let playPending = false;
 
 audio.volume = 0.3;
+audio.muted  = true;
+
+function setPlayingUI() {
+    musicBtn.innerHTML = '<span class="ring"></span>🔊';
+    musicBtn.classList.add('playing');
+    volWrap.classList.add('show');
+    setTimeout(() => volWrap.classList.remove('show'), 4000);
+}
+
+function unmuteOnInteraction() {
+    if (!isPlaying) return;
+    audio.muted = false;
+    ['click','scroll','keydown','touchstart'].forEach(e =>
+        document.removeEventListener(e, unmuteOnInteraction));
+}
 
 function startMusic() {
-    if (isPlaying || playPending) return;
-    playPending = true;
+    if (isPlaying) return;
     audio.play().then(() => {
-        isPlaying   = true;
-        playPending = false;
-        musicBtn.innerHTML = '<span class="ring"></span>🔊';
-        musicBtn.classList.add('playing');
-        volWrap.classList.add('show');
-        setTimeout(() => volWrap.classList.remove('show'), 4000);
-    }).catch(() => { playPending = false; });
+        isPlaying = true;
+        setPlayingUI();
+        ['click','scroll','keydown','touchstart'].forEach(e =>
+            document.addEventListener(e, unmuteOnInteraction, { once: true, passive: true }));
+    }).catch(() => {});
 }
-
-const autoEvents = ['click', 'scroll', 'keydown', 'touchstart'];
-function onFirstInteraction() {
-    startMusic();
-    autoEvents.forEach(e => document.removeEventListener(e, onFirstInteraction));
-}
-autoEvents.forEach(e => document.addEventListener(e, onFirstInteraction, { once: true, passive: true }));
 
 musicBtn.addEventListener('click', () => {
     if (isPlaying) {
         audio.pause();
+        audio.muted = true;
         musicBtn.innerHTML = '<span class="ring"></span>🎵';
         musicBtn.classList.remove('playing');
         volWrap.classList.remove('show');
         isPlaying = false;
     } else {
-        autoEvents.forEach(e => document.removeEventListener(e, onFirstInteraction));
+        audio.muted = false;
         startMusic();
     }
 });
