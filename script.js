@@ -136,27 +136,66 @@ heroEl.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.cli
 heroEl.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
 
 /* ══════════════════════════════════════════════════════
-   FALLING LEAVES
+   PIXEL ART FALLING LEAVES
 ══════════════════════════════════════════════════════ */
-const leafColorsDark  = ['#74c69d','#95d5b2','#b7e4c7','#c8ecd6','#52b788','#a8dfb8','#d0f0e0','#86cfa8'];
-const leafColorsLight = ['#2d7a4f','#3a9e6a','#1d7a45','#4aaf7e','#238f50','#3d9e6a','#1a6b3c','#52b06e'];
+function makeLeafCanvas(dark, mid, light, stem) {
+    const c = document.createElement('canvas');
+    c.width = 9; c.height = 12;
+    const cx = c.getContext('2d');
+    const d = (x, y, col) => { cx.fillStyle = col; cx.fillRect(x, y, 1, 1); };
+
+    // Row 0
+    d(3,0,dark); d(4,0,dark); d(5,0,dark);
+    // Row 1
+    d(2,1,dark); d(3,1,light); d(4,1,mid); d(5,1,mid); d(6,1,dark);
+    // Row 2
+    d(1,2,dark); d(2,2,light); d(3,2,light); d(4,2,mid); d(5,2,mid); d(6,2,mid); d(7,2,dark);
+    // Row 3
+    d(0,3,dark); d(1,3,mid); d(2,3,light); d(3,3,mid); d(4,3,mid); d(5,3,mid); d(6,3,mid); d(7,3,mid); d(8,3,dark);
+    // Row 4
+    d(0,4,dark); d(1,4,mid); d(2,4,mid); d(3,4,mid); d(4,4,mid); d(5,4,mid); d(6,4,mid); d(7,4,mid); d(8,4,dark);
+    // Row 5
+    d(0,5,dark); d(1,5,mid); d(2,5,mid); d(3,5,mid); d(4,5,mid); d(5,5,mid); d(6,5,mid); d(7,5,dark);
+    // Row 6
+    d(1,6,dark); d(2,6,mid); d(3,6,mid); d(4,6,mid); d(5,6,mid); d(6,6,dark);
+    // Row 7
+    d(2,7,dark); d(3,7,mid); d(4,7,mid); d(5,7,dark);
+    // Row 8
+    d(3,8,dark); d(4,8,dark);
+    // Stem
+    d(3,9,stem); d(3,10,stem); d(2,11,stem); d(3,11,stem);
+
+    return c.toDataURL();
+}
+
+const leafSchemes = [
+    { dark:'#1a5c1a', mid:'#4dbb36', light:'#88ee55', stem:'#4a3520' },
+    { dark:'#006600', mid:'#33dd00', light:'#88ff44', stem:'#4a3520' },
+    { dark:'#2d6600', mid:'#77cc00', light:'#bbee44', stem:'#4a3520' },
+    { dark:'#005c3d', mid:'#00cc77', light:'#55ffbb', stem:'#4a3520' },
+    { dark:'#1a5c3d', mid:'#33cc88', light:'#77eecc', stem:'#4a3520' },
+    { dark:'#336611', mid:'#88cc44', light:'#ccee88', stem:'#4a3520' },
+    { dark:'#004d33', mid:'#00aa66', light:'#55ddaa', stem:'#4a3520' },
+    { dark:'#225511', mid:'#66bb33', light:'#aade77', stem:'#4a3520' },
+];
+
+const leafDataURLs = leafSchemes.map(s => makeLeafCanvas(s.dark, s.mid, s.light, s.stem));
 
 function spawnLeaf() {
     const leaf = document.createElement('div');
     leaf.className = 'leaf';
-    const size     = Math.random() * 18 + 8;
-    const colors   = html.classList.contains('dark') ? leafColorsDark : leafColorsLight;
-    const color    = colors[Math.floor(Math.random() * colors.length)];
+    const url      = leafDataURLs[Math.floor(Math.random() * leafDataURLs.length)];
+    const size     = Math.random() * 24 + 20;
     const startX   = Math.random() * 110 - 5;
     const duration = Math.random() * 8 + 10;
     const drift    = (Math.random() - 0.5) * 280;
-    const rot      = Math.random() * 720 - 360;
+    const rot      = Math.random() * 360 - 180;
     const delay    = Math.random() * 1.5;
 
     leaf.style.cssText = `
-        width:${size}px;height:${size}px;
-        background:${color};
-        left:${startX}vw;top:-40px;
+        width:${size}px;height:${Math.round(size * 1.33)}px;
+        background:url("${url}") no-repeat center/100% 100%;
+        left:${startX}vw;top:-60px;
         --drift:${drift}px;--rot:${rot}deg;
         animation:leafFall ${duration}s ${delay}s linear both;
     `;
