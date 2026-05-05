@@ -2,24 +2,24 @@
 
 /* ── LIGHT MODE (défaut) ────────────────────────── */
 :root {
-    --bg:          #EBF3FA;
-    --bg2:         #DDE9F5;
-    --surface:     #CCDCEE;
-    --surface2:    #B8CCE4;
-    --border:      rgba(16,100,180,0.14);
-    --border2:     rgba(16,100,180,0.28);
-    --text:        #091929;
-    --text-dim:    rgba(9,25,41,0.62);
-    --text-muted:  rgba(9,25,41,0.38);
+    --bg:          #F6FAFF;
+    --bg2:         #EDF4FC;
+    --surface:     #E0EBF8;
+    --surface2:    #CCDDEE;
+    --border:      rgba(16,100,180,0.10);
+    --border2:     rgba(16,100,180,0.22);
+    --text:        #0A1929;
+    --text-dim:    rgba(10,25,41,0.60);
+    --text-muted:  rgba(10,25,41,0.36);
     --accent:      #10C8BE;
     --accent-dim:  rgba(16,200,190,0.12);
-    --hero-glow1:  rgba(16,200,190,0.12);
-    --hero-glow2:  rgba(140,195,235,0.45);
-    --hero-grad:   linear-gradient(160deg,#EBF3FA 0%,#DDE9F5 30%,#CCDCEE 55%,#DDE9F5 80%,#EBF3FA 100%);
-    --nav-bg:      rgba(235,243,250,.96);
-    --overlay-bg:  rgba(235,243,250,.90);
-    --body-glow:   radial-gradient(ellipse at 70% 5%,rgba(16,200,190,0.08) 0%,transparent 50%),
-                   radial-gradient(ellipse at 15% 90%,rgba(140,195,235,0.15) 0%,transparent 45%);
+    --hero-glow1:  rgba(16,200,190,0.10);
+    --hero-glow2:  rgba(130,190,235,0.35);
+    --hero-grad:   linear-gradient(160deg,#F6FAFF 0%,#EDF4FC 30%,#E0EBF8 55%,#EDF4FC 80%,#F6FAFF 100%);
+    --nav-bg:      rgba(246,250,255,.97);
+    --overlay-bg:  rgba(246,250,255,.92);
+    --body-glow:   radial-gradient(ellipse at 70% 5%,rgba(16,200,190,0.06) 0%,transparent 50%),
+                   radial-gradient(ellipse at 15% 90%,rgba(130,190,235,0.12) 0%,transparent 45%);
 }
 
 /* ── DARK MODE ──────────────────────────────────── */

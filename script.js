@@ -138,8 +138,8 @@ heroEl.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; 
 /* ══════════════════════════════════════════════════════
    FALLING LEAVES
 ══════════════════════════════════════════════════════ */
-const leafColorsDark  = ['#52b788','#74c69d','#95d5b2','#b7e4c7','#40916c','#6bcf8f','#a3d977','#7bcb8a'];
-const leafColorsLight = ['#1b4332','#2d6a4f','#40916c','#1f6b3a','#285e3a','#3a7d52','#2e8b57','#365f44'];
+const leafColorsDark  = ['#74c69d','#95d5b2','#b7e4c7','#c8ecd6','#52b788','#a8dfb8','#d0f0e0','#86cfa8'];
+const leafColorsLight = ['#2d7a4f','#3a9e6a','#1d7a45','#4aaf7e','#238f50','#3d9e6a','#1a6b3c','#52b06e'];
 
 function spawnLeaf() {
     const leaf = document.createElement('div');
@@ -349,6 +349,7 @@ const musicBtn  = document.getElementById('music-btn');
 const volWrap   = document.getElementById('volume-wrap');
 const volSlider = document.getElementById('volume-slider');
 let isPlaying   = false;
+let autoStarted = false;
 
 audio.volume = 0.3;
 audio.muted  = true;
@@ -360,34 +361,41 @@ function setPlayingUI() {
     setTimeout(() => volWrap.classList.remove('show'), 4000);
 }
 
-function unmuteOnInteraction() {
-    if (!isPlaying) return;
-    audio.muted = false;
-    ['click','scroll','keydown','touchstart'].forEach(e =>
-        document.removeEventListener(e, unmuteOnInteraction));
-}
+// Démarre en muet dès le chargement (toujours autorisé par les navigateurs)
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('loader').classList.add('hidden');
+        audio.play().then(() => { autoStarted = true; }).catch(() => {});
+    }, 1500);
+});
 
-function startMusic() {
-    if (isPlaying) return;
-    audio.play().then(() => {
+// Au premier scroll : démute silencieusement
+window.addEventListener('scroll', function onFirstScroll() {
+    if (autoStarted && audio.muted) {
+        audio.muted = false;
         isPlaying = true;
         setPlayingUI();
-        ['click','scroll','keydown','touchstart'].forEach(e =>
-            document.addEventListener(e, unmuteOnInteraction, { once: true, passive: true }));
-    }).catch(() => {});
-}
+    }
+    window.removeEventListener('scroll', onFirstScroll);
+}, { passive: true });
 
 musicBtn.addEventListener('click', () => {
     if (isPlaying) {
         audio.pause();
         audio.muted = true;
+        isPlaying = false;
+        autoStarted = false;
         musicBtn.innerHTML = '<span class="ring"></span>🎵';
         musicBtn.classList.remove('playing');
         volWrap.classList.remove('show');
-        isPlaying = false;
     } else {
+        // Clic explicite = geste utilisateur = autorisé par le navigateur
         audio.muted = false;
-        startMusic();
+        audio.play().then(() => {
+            isPlaying = true;
+            autoStarted = true;
+            setPlayingUI();
+        }).catch(() => {});
     }
 });
 
